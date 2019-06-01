@@ -28,6 +28,7 @@ public class PlayerConn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //m_pv.RPC("Novo", RpcTarget.All);
         m_canvas.transform.LookAt(Camera.main.transform);
     }
 }
