@@ -7,6 +7,7 @@ using Photon.Pun;
 public class PlayerConn : MonoBehaviour
 {
     #region Variables
+    [Header("Settings")]
     [SerializeField]
     private PhotonView m_pv;
 
@@ -15,6 +16,8 @@ public class PlayerConn : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI m_textMeshProUGUI;
+
+    public int Score;
 
     #endregion
 
@@ -30,5 +33,11 @@ public class PlayerConn : MonoBehaviour
     {
         //m_pv.RPC("Novo", RpcTarget.All);
         m_canvas.transform.LookAt(Camera.main.transform);
+    }
+
+    public void GetItem()
+    {
+        Score++;
+
     }
 }

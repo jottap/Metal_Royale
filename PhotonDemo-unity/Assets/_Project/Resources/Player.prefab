@@ -102,6 +102,7 @@ MonoBehaviour:
   m_pv: {fileID: 0}
   m_canvas: {fileID: 151084911297718912}
   m_textMeshProUGUI: {fileID: 7907081470923867390}
+  Score: 0
 --- !u!61 &8217059354864716514
 BoxCollider2D:
   m_ObjectHideFlags: 0
