@@ -43,15 +43,6 @@ public class Conn : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom(m_nameRoom.text, new RoomOptions(), TypedLobby.Default);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PhotonNetwork.Disconnect();
-        }
-    }
-
     public override void OnConnectedToMaster()
     {
         Debug.Log(" Conectado !");
