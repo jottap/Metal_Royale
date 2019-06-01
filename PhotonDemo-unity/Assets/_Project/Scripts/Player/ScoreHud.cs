@@ -27,12 +27,6 @@ public class ScoreHud : MonoBehaviour
 
     public void ScoreSet(int value)
     {
-        this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
-    }
-
-    [PunRPC]
-    public void ScoreSetPhoton(int value)
-    {
         m_slider.value = value;
     }
 

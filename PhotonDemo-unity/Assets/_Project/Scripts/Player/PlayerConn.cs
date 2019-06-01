@@ -26,7 +26,7 @@ public class PlayerConn : MonoBehaviour
         set
         {
             m_score = value;
-            ScoreHud.ScoreSet(value);
+            this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
         }
     }
 
@@ -64,4 +64,11 @@ public class PlayerConn : MonoBehaviour
         Score++;
 
     }
+
+    [PunRPC]
+    public void ScoreSetPhoton(int value)
+    {
+        ScoreHud.ScoreSet(value);
+    }
+
 }
