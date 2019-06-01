@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerConn : MonoBehaviour
 {
@@ -17,15 +18,38 @@ public class PlayerConn : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_textMeshProUGUI;
 
-    public int Score;
+    [SerializeField]
+    private int m_score;
+    public int Score
+    {
+        get => m_score;
+        set
+        {
+            m_score = value;
+            this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
+        }
+    }
+
+    public TextMeshProUGUI NameLabel { get => m_textMeshProUGUI; set => m_textMeshProUGUI = value; }
+
+    [Header("HUD")]
+    [SerializeField]
+    private ScoreHud ScoreHud;
+
+    private int m_scoreMax = 10;
 
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
+    {
+        this.GetComponent<PhotonView>().RPC("InitPhoton", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void InitPhoton()
     {
         m_pv = GetComponent<PhotonView>();
-        m_textMeshProUGUI.text = m_pv.Owner.NickName;
+        NameLabel.text = m_pv.Owner.NickName;
     }
 
     // Update is called once per frame
@@ -40,4 +64,11 @@ public class PlayerConn : MonoBehaviour
         Score++;
 
     }
+
+    [PunRPC]
+    public void ScoreSetPhoton(int value)
+    {
+        ScoreHud.ScoreSet(value);
+    }
+
 }
