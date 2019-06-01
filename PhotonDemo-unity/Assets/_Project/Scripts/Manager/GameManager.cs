@@ -30,13 +30,6 @@ public class GameManager : MonoBehaviour
 
         playerGo.GetComponent<PlayerConn>().Init();
 
-        //GameObject m_Hud = PhotonNetwork.Instantiate(Constants.HUDPlayer, Vector3.zero, Quaternion.identity);
-        //m_Hud.transform.SetParent(m_panel.transform);
-        //m_Hud.SetActive(true);
-
-        //playerGo.GetComponent<PlayerConn>().ScoreHud = m_Hud.GetComponent<ScoreHud>();
-        //m_Hud.GetComponent<ScoreHud>().TxtLabel.text = playerGo.GetComponent<PlayerConn>().NameLabel.text;
-
         SubscriveEvent();
     }
 
