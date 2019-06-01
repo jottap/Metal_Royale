@@ -4,48 +4,62 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using System;
 
 public class Conn : MonoBehaviourPunCallbacks
 {
     #region Variables
 
+    public static Conn Instance;
+
     [Header("Settings")]
-    [SerializeField]
-    private GameObject m_panelL;
-    [SerializeField]
-    private GameObject m_panelR;
 
-    [SerializeField]
-    private TMP_InputField m_namePlayer;
-    [SerializeField]
-    private TMP_InputField m_nameRoom;
+    public const string PlayerPrefab = "player";
 
-    [SerializeField]
-    private TextMeshProUGUI m_nickName;
+    #region Actions
 
-    [SerializeField]
-    private GameObject m_playerPrefab;
+    public Action LoginAction;
+    public Action OnConnectedAction;
+    public Action OnJoinedRoomAction;
 
     #endregion
 
-    public void Login()
+    #endregion
+
+    private void Awake()
     {
-        PhotonNetwork.NickName = m_namePlayer.text;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    public void EnterLogin(string namePlayer)
+    {
+        PhotonNetwork.NickName = namePlayer;
         PhotonNetwork.ConnectUsingSettings();
 
-        m_panelL.SetActive(false);
-        m_panelR.SetActive(true);
+        LoginAction?.Invoke();
     }
 
-    public void CreateRoom()
+    public void CreateRoom(string nameRoom)
     {
         Debug.Log(" JoinOrCreateRoom !");
-        PhotonNetwork.JoinOrCreateRoom(m_nameRoom.text, new RoomOptions(), TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(nameRoom, new RoomOptions(), TypedLobby.Default);
     }
+
+    #region PhotonMethods
 
     public override void OnConnectedToMaster()
     {
         Debug.Log(" Conectado !");
+
+        OnConnectedAction?.Invoke();
         PhotonNetwork.JoinLobby();
     }
 
@@ -73,10 +87,13 @@ public class Conn : MonoBehaviourPunCallbacks
     {
         Debug.LogFormat(" Entrei em uma sala !");
         Debug.LogFormat("Name Room : [{0}] Players Count : [{1}], NickName : [{2}]", PhotonNetwork.CurrentRoom.Name, PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.NickName);
-        m_nickName.text = PhotonNetwork.NickName;
 
-        m_panelR.SetActive(false);
-        PhotonNetwork.Instantiate(m_playerPrefab.name, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity, 0);
+        OnJoinedRoomAction?.Invoke();
+
+        //m_nickName.text = PhotonNetwork.NickName;
+        //PlayerPrefab
+        //PhotonNetwork.Instantiate(m_playerPrefab.name, new Vector3(UnityEngine.Random.Range(-5, 5), 0, 0), Quaternion.identity, 0);
     }
 
+    #endregion
 }

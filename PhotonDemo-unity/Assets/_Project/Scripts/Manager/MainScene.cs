@@ -7,21 +7,21 @@ public class MainScene : MonoBehaviour
 {
     #region Variables
 
-    [Header("Settings")]
+    [Header("Login")]
     [SerializeField]
     private GameObject m_panelL;
     [SerializeField]
-    private GameObject m_panelR;
-    [SerializeField]
-    private GameObject m_panelLoading;
-
-    [SerializeField]
     private TMP_InputField m_namePlayer;
+
+    [Header("Room")]
+    [SerializeField]
+    private GameObject m_panelR;
     [SerializeField]
     private TMP_InputField m_nameRoom;
 
+    [Header("Loading")]
     [SerializeField]
-    private TextMeshProUGUI m_nickName;
+    private GameObject m_panelLoading;
 
     #endregion
 
@@ -41,17 +41,42 @@ public class MainScene : MonoBehaviour
     private void SubscriveEvent()
     {
         Conn.Instance.LoginAction += Login;
+        Conn.Instance.OnConnectedAction += OnConnected;
+        Conn.Instance.OnJoinedRoomAction += OnJoinedRoom;
     }
 
     private void UnSubscriveEvent()
     {
         Conn.Instance.LoginAction -= Login;
+        Conn.Instance.OnConnectedAction -= OnConnected;
+        Conn.Instance.OnJoinedRoomAction -= OnJoinedRoom;
     }
 
-    public void Login()
+    private void Login()
     {
         m_panelL.SetActive(false);
         m_panelLoading.SetActive(true);
+    }
+
+    public void OnConnected()
+    {
+        m_panelLoading.SetActive(false);
+        m_panelR.SetActive(true);
+    }
+
+    public void OnJoinedRoom()
+    {
+
+    }
+
+    public void EnterLogin()
+    {
+        Conn.Instance.EnterLogin(m_namePlayer.text);
+    }
+
+    public void CreateRoom()
+    {
+        Conn.Instance.CreateRoom(m_nameRoom.text);
     }
 
 }
