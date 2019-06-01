@@ -42,7 +42,7 @@ public class PlayerConn : MonoBehaviour
 
     public void Init()
     {
-        this.GetComponent<PhotonView>().RPC("InitPhoton", RpcTarget.All);
+        this.GetComponent<PhotonView>().RPC("InitPhoton", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
