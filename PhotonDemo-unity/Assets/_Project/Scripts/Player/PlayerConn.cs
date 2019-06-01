@@ -55,14 +55,17 @@ public class PlayerConn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //m_pv.RPC("Novo", RpcTarget.All);
         m_canvas.transform.LookAt(Camera.main.transform);
+
+        if (transform.position.y <= -8)
+        {
+            transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
+        }
     }
 
     public void GetItem()
     {
         Score++;
-
     }
 
     [PunRPC]
