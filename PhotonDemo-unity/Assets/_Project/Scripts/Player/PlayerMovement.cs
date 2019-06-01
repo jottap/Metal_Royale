@@ -1,13 +1,11 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /* 
  * Basic movement from Code Monkey, visit: unitycodemonkey.com
  */
 
-public class Move : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Player Configuration")] [Space(10)]
     [SerializeField] private LayerMask platformsLayerMask;
