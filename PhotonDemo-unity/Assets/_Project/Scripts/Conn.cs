@@ -23,6 +23,9 @@ public class Conn : MonoBehaviourPunCallbacks
     [SerializeField]
     private TextMeshProUGUI m_nickName;
 
+    [SerializeField]
+    private GameObject m_playerPrefab;
+
     #endregion
 
     public void Login()
@@ -36,6 +39,7 @@ public class Conn : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        Debug.Log(" JoinOrCreateRoom !");
         PhotonNetwork.JoinOrCreateRoom(m_nameRoom.text, new RoomOptions(), TypedLobby.Default);
     }
 
@@ -79,6 +83,9 @@ public class Conn : MonoBehaviourPunCallbacks
         Debug.LogFormat(" Entrei em uma sala !");
         Debug.LogFormat("Name Room : [{0}] Players Count : [{1}], NickName : [{2}]", PhotonNetwork.CurrentRoom.Name, PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.NickName);
         m_nickName.text = PhotonNetwork.NickName;
+
+        m_panelR.SetActive(false);
+        PhotonNetwork.Instantiate(m_playerPrefab.name, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity, 0);
     }
 
 }
