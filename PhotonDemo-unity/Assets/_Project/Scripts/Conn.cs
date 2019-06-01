@@ -14,8 +14,6 @@ public class Conn : MonoBehaviourPunCallbacks
 
     [Header("Settings")]
 
-    public const string PlayerPrefab = "player";
-
     #region Actions
 
     public Action LoginAction;
@@ -37,6 +35,11 @@ public class Conn : MonoBehaviourPunCallbacks
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public void EnterLogin(string namePlayer)
@@ -90,9 +93,10 @@ public class Conn : MonoBehaviourPunCallbacks
 
         OnJoinedRoomAction?.Invoke();
 
-        //m_nickName.text = PhotonNetwork.NickName;
-        //PlayerPrefab
-        //PhotonNetwork.Instantiate(m_playerPrefab.name, new Vector3(UnityEngine.Random.Range(-5, 5), 0, 0), Quaternion.identity, 0);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(Constants.SceneGame);
+        }
     }
 
     #endregion
