@@ -6,4 +6,5 @@ public class Constants
 {
     public const string PlayerPrefab = "player";
     public static string SceneGame = "GameScene";
+    public static string MainScene = "MainScene";
 }

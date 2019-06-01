@@ -19,6 +19,7 @@ public class Conn : MonoBehaviourPunCallbacks
     public Action LoginAction;
     public Action OnConnectedAction;
     public Action OnJoinedRoomAction;
+    public Action OnDisconnectedAction;
 
     #endregion
 
@@ -74,6 +75,8 @@ public class Conn : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log(" Conexão Perdida !");
+
+        OnDisconnectedAction?.Invoke();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
