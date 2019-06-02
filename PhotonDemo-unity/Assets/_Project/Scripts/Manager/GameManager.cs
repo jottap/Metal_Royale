@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,17 @@ public class GameManager : MonoBehaviour
     public Button ButtonRespawn;
     public GameObject playerRespawn;
 
+    [SerializeField]
+    private double startTime = 0;
+    [SerializeField]
+    private double timerIncrementValue = 0;
+    [SerializeField]
+    private TextMeshProUGUI m_timeLabel;
+    [SerializeField]
+    private double timer = 60;
+    [SerializeField]
+    private bool startTimer;
+
     #endregion
 
     private void Awake()
@@ -32,6 +44,21 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
+            startTime = PhotonNetwork.Time;
+            startTimer = true;
+            CustomeValue.Add("StartTime", startTime);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
+        }
+        else
+        {
+            startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
+            startTimer = true;
+        }
+
         GameObject playerGo = PhotonNetwork.Instantiate(Constants.PlayerPrefab, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity);
         PlayerList.Add(playerGo.GetComponent<PlayerConn>());
 
@@ -41,6 +68,22 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(GenerateItem());
     }
+
+    void Update()
+    {
+
+        if (!startTimer) return;
+
+        timerIncrementValue = PhotonNetwork.Time - startTime;
+        m_timeLabel.text = timerIncrementValue.ToString("F0");
+
+        if (timerIncrementValue >= timer)
+        {
+            //Timer Completed
+            //Do What Ever You What to Do Here
+        }
+    }
+
     public IEnumerator GenerateItem()
     {
         while (true)
