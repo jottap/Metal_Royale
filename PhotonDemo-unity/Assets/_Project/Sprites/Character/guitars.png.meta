@@ -1,7 +1,11 @@
 fileFormatVersion: 2
 guid: a45ed5cf223a9e14ca39dec5b23ae7be
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: guitars_0
+    21300002: guitars_1
+    21300004: guitars_2
+    21300006: guitars_3
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -126,7 +130,87 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: guitars_0
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 1606
+        width: 477
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0b10223c335117408f65c6459e05ded
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guitars_1
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 1592
+        width: 559
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ca7c212eef1b3c4e8dd6e65c34e41a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guitars_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 1011
+        width: 552
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67bc45a9b2ca1b74f96164a32fa712d6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guitars_3
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 1073
+        width: 990
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa9cd8a2eee41864fa7e0b914a9b7e6c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
