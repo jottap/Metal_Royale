@@ -9,14 +9,16 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Player Configuration")] [Space(10)]
     [SerializeField] private LayerMask platformsLayerMask;
-    [SerializeField] private float m_JumpVelocity = 100f;
-    [SerializeField] private float m_MoveSpeed = 40f;
-    [SerializeField] private float m_MidAirControl = 3f;
+    [SerializeField] private float m_JumpVelocity = 24F;
+    [SerializeField] private float m_MoveSpeed = 6F;
+    [SerializeField] private float m_MidAirControl = 3F;
+    [SerializeField] private int m_AirJumpMax = 1;
 
     //private Player_Base playerBase;
     private Rigidbody2D m_Rigidbody2d;
     private BoxCollider2D m_BoxCollider2d;
     private PhotonView m_PhotonView;
+    private int m_AirJumpCount = 0;
 
 
     private void Awake()
@@ -31,10 +33,31 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_PhotonView.IsMine)
         {
-            if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+            bool isGrounded = IsGrounded();
+
+            if (isGrounded)
             {
-                m_Rigidbody2d.velocity = Vector2.up * m_JumpVelocity;
+                m_AirJumpCount = 0;
             }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                if (isGrounded)
+                {
+                    PerformJump();
+                }
+                else
+                {
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        if (m_AirJumpCount < m_AirJumpMax)
+                        {
+                            PerformJump();
+                            m_AirJumpCount++;
+                        }
+                    }
+                }
+            }            
 
             HandleMovement_FullMidAirControl();
             //HandleMovement_SomeMidAirControl();
@@ -63,6 +86,11 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
         return raycastHit2d.collider != null;
+    }
+
+    private void PerformJump()
+    {
+        m_Rigidbody2d.velocity = Vector2.up * m_JumpVelocity;
     }
 
     private void HandleMovement_FullMidAirControl()
