@@ -123,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
             if (!IsStunned && !isPerformingSkillSet)
             {
                 bool isGrounded = IsGrounded;
+                m_AnimatorController.SetBool("IsGrounded", isGrounded);
 
                 if (isGrounded)
                 {
@@ -181,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void PerformJump()
     {
+        m_AnimatorController.SetTrigger("Jump");
         m_Rigidbody2d.velocity = Vector2.up * m_JumpVelocity;
     }
 

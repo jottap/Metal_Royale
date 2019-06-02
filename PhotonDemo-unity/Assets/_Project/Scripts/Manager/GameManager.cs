@@ -20,9 +20,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float m_timeRespawnItem;
 
-    public Button ButtonRespawn;
-    public GameObject playerRespawn;
+    [SerializeField]
+    private Button ButtonRespawn;
+    [SerializeField]
+    private Button ButtonStartGame;
 
+    [SerializeField]
+    private GameObject playerRespawn;
+
+    [SerializeField]
+    private bool m_isGameStarted;
+
+
+    [Header("Time")]
     [SerializeField]
     private double startTime = 0;
     [SerializeField]
@@ -49,14 +59,20 @@ public class GameManager : MonoBehaviour
         {
             ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
             startTime = PhotonNetwork.Time;
-            startTimer = true;
+            startTimer = false;
             CustomeValue.Add("StartTime", startTime);
+            CustomeValue.Add("startTimer", startTimer);
+            CustomeValue.Add("IsGameStarted", m_isGameStarted);
             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
+            ButtonStartGame.gameObject.SetActive(true);
+
+            StartCoroutine(GenerateItem());
         }
         else
         {
             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
-            startTimer = true;
+            m_isGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
+            startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
         }
 
         GameObject playerGo = PhotonNetwork.Instantiate(Constants.PlayerPrefab, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity);
@@ -66,7 +82,14 @@ public class GameManager : MonoBehaviour
 
         SubscriveEvent();
 
-        StartCoroutine(GenerateItem());
+        if (m_isGameStarted)
+        {
+            playerGo.gameObject.SetActive(false);
+        }
+        else
+        {
+            playerGo.gameObject.SetActive(true);
+        }
     }
 
     void Update()
@@ -79,8 +102,10 @@ public class GameManager : MonoBehaviour
 
         if (timerIncrementValue >= timer)
         {
-            //Timer Completed
-            //Do What Ever You What to Do Here
+            Debug.Log(" FINAL " + (timerIncrementValue >= timer));
+            Debug.Log(" FINAL " + timerIncrementValue);
+            Debug.Log(" FINAL " + timer);
+            StopGame();
         }
     }
 
@@ -118,6 +143,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(Constants.MainScene);
     }
 
+    public void StartGame()
+    {
+        m_isGameStarted = true;
+        ButtonStartGame.gameObject.SetActive(false);
+        startTime = PhotonNetwork.Time;
+        startTimer = true;
+    }
+
+    public void StopGame()
+    {
+        m_isGameStarted = false;
+        ButtonStartGame.gameObject.SetActive(true);
+    }
+
     public void SetRespawnPlayer(GameObject player)
     {
         playerRespawn = player;
@@ -127,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
+        playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.MasterClient);
         ButtonRespawn.gameObject.SetActive(false);
     }
 
