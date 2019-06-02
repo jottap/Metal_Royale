@@ -188,19 +188,19 @@ public class PlayerMovement : MonoBehaviour
         if (GetHorizontalInput < 0) CharacterDirection = Vector2.left;
         else if (GetHorizontalInput > 0) CharacterDirection = Vector2.right;
 
-        this.GetComponent<PhotonView>().RPC("Velocity", RpcTarget.All, new object[] { (GetHorizontalInput == 0 ? 0 : 1) });
+        this.GetComponent<PhotonView>().RPC("SetVelocity", RpcTarget.All, new object[] { (GetHorizontalInput == 0 ? 0 : 1) });
     }
 
     [PunRPC]
-    public void Velocity()
+    public void SetVelocity(int value)
     {
-        m_AnimatorController.SetInteger("Velocity", GetHorizontalInput == 0 ? 0 : 1);
+        m_AnimatorController.SetInteger("Velocity", value);
     }
 
     private void StopPlayer()
     {
         m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
         //m_AnimatorController.SetInteger("Velocity", 0);
-        this.GetComponent<PhotonView>().RPC("Velocity", RpcTarget.All, new object[] { 0 });
+        this.GetComponent<PhotonView>().RPC("SetVelocity", RpcTarget.All, new object[] { 0 });
     }
 }
