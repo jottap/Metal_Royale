@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7327503758692363999}
   - component: {fileID: 7327503758692363997}
   - component: {fileID: 7327503758692363994}
-  - component: {fileID: 7327503758692363996}
-  m_Layer: 0
+  - component: {fileID: 6985404407396934272}
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_SynchronizePosition: 0
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 1
---- !u!68 &7327503758692363996
-EdgeCollider2D:
+--- !u!61 &6985404407396934272
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -154,17 +154,19 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.033503532, y: -3.6184473}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 40.96, y: 20.48}
+    newSize: {x: 40.96, y: 20.48}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 36.73848, y: 13.243105}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: -2.8236737, y: -10.411324}
-  - {x: -18.440363, y: -10.467865}
-  - {x: -18.429426, y: 2.440516}
-  - {x: -17.210152, y: 3.7543404}
-  - {x: 17.586777, y: 3.7576456}
-  - {x: 18.619076, y: 2.4560974}
-  - {x: 18.526297, y: -10.307527}
-  - {x: 2.0952885, y: -10.349668}
 --- !u!1 &7327503759161386381
 GameObject:
   m_ObjectHideFlags: 0

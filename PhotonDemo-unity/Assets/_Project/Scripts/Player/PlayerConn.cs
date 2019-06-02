@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using Photon.Pun;
-using UnityEngine.UI;
 
 public class PlayerConn : MonoBehaviour
 {
@@ -18,6 +15,12 @@ public class PlayerConn : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_textMeshProUGUI;
 
+    [SerializeField] private int m_MaxScore = 10;
+    public int MaxScore
+    {
+        get => m_MaxScore;
+    }
+
     [SerializeField]
     private int m_score;
     public int Score
@@ -25,10 +28,14 @@ public class PlayerConn : MonoBehaviour
         get => m_score;
         set
         {
-            m_score = value;
-            this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
+            if (value <= m_MaxScore)
+            {
+                this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
+            }
         }
     }
+
+
 
     public TextMeshProUGUI NameLabel { get => m_textMeshProUGUI; set => m_textMeshProUGUI = value; }
 
@@ -71,6 +78,7 @@ public class PlayerConn : MonoBehaviour
     [PunRPC]
     public void ScoreSetPhoton(int value)
     {
+        m_score = value;
         ScoreHud.ScoreSet(value);
     }
 
