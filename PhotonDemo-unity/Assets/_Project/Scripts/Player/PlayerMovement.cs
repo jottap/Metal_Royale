@@ -20,6 +20,15 @@ public class PlayerMovement : MonoBehaviour
     private PhotonView m_PhotonView;
     private int m_AirJumpCount = 0;
 
+    private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
+    private bool GetJumpInput { get => Input.GetButtonDown("Jump"); }
+    private bool IsGrounded
+    {
+        get {
+            RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
+            return raycastHit2d.collider != null;
+        }
+    }
 
     private void Awake()
     {
@@ -33,14 +42,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_PhotonView.IsMine)
         {
-            bool isGrounded = IsGrounded();
+            bool isGrounded = IsGrounded;
 
             if (isGrounded)
             {
                 m_AirJumpCount = 0;
             }
 
-            if (Input.GetKey(KeyCode.Space))
+            if (GetJumpInput)
             {
                 if (isGrounded)
                 {
@@ -48,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    if (GetJumpInput)
                     {
                         if (m_AirJumpCount < m_AirJumpMax)
                         {
@@ -82,11 +91,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
-    {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
-        return raycastHit2d.collider != null;
-    }
+    
 
     private void PerformJump()
     {
@@ -96,86 +101,35 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement_FullMidAirControl()
     {
         float moveSpeed = m_MoveSpeed;
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            m_Rigidbody2d.velocity = new Vector2(-moveSpeed, m_Rigidbody2d.velocity.y);
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                m_Rigidbody2d.velocity = new Vector2(+moveSpeed, m_Rigidbody2d.velocity.y);
-            }
-            else
-            {
-                // No keys pressed
-                m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
-            }
-        }
+
+        m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
+
     }
 
     private void HandleMovement_SomeMidAirControl()
     {
         float moveSpeed = m_MoveSpeed;
         float midAirControl = m_MidAirControl;
-        if (Input.GetKey(KeyCode.LeftArrow))
+
+        if (IsGrounded)
         {
-            if (IsGrounded())
-            {
-                m_Rigidbody2d.velocity = new Vector2(-moveSpeed, m_Rigidbody2d.velocity.y);
-            }
-            else
-            {
-                m_Rigidbody2d.velocity += new Vector2(-moveSpeed * midAirControl * Time.deltaTime, 0);
-                m_Rigidbody2d.velocity = new Vector2(Mathf.Clamp(m_Rigidbody2d.velocity.x, -moveSpeed, +moveSpeed), m_Rigidbody2d.velocity.y);
-            }
+            m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
         }
-        else
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                if (IsGrounded())
-                {
-                    m_Rigidbody2d.velocity = new Vector2(+moveSpeed, m_Rigidbody2d.velocity.y);
-                }
-                else
-                {
-                    m_Rigidbody2d.velocity += new Vector2(+moveSpeed * midAirControl * Time.deltaTime, 0);
-                    m_Rigidbody2d.velocity = new Vector2(Mathf.Clamp(m_Rigidbody2d.velocity.x, -moveSpeed, +moveSpeed), m_Rigidbody2d.velocity.y);
-                }
-            }
-            else
-            {
-                // No keys pressed
-                if (IsGrounded())
-                {
-                    m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
-                }
-            }
+        else {
+            m_Rigidbody2d.velocity += new Vector2((GetHorizontalInput * m_MoveSpeed) * midAirControl * Time.deltaTime, 0);
+            m_Rigidbody2d.velocity = new Vector2(Mathf.Clamp(m_Rigidbody2d.velocity.x, -moveSpeed, +moveSpeed), m_Rigidbody2d.velocity.y);
         }
+
     }
 
     private void HandleMovement_NoMidAirControl()
     {
-        if (IsGrounded())
+        if (IsGrounded)
         {
             float moveSpeed = m_MoveSpeed;
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                m_Rigidbody2d.velocity = new Vector2(-moveSpeed, m_Rigidbody2d.velocity.y);
-            }
-            else
-            {
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    m_Rigidbody2d.velocity = new Vector2(+moveSpeed, m_Rigidbody2d.velocity.y);
-                }
-                else
-                {
-                    // No keys pressed
-                    m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
-                }
-            }
+
+            m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
+
         }
     }
 }
