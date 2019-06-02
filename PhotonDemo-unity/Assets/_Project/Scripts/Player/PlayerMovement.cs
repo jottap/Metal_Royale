@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Configuration")]
     [Space(10)]
+    [SerializeField] private ParticleSystem m_HitEffect;
     [SerializeField] private GameObject m_StunnedEffect;
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private float m_JumpVelocity = 24F;
@@ -174,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
     [PunRPC]
     public void TakeHit(Vector2 hitDirection)
     {
+        m_HitEffect.Play();
         m_Rigidbody2d.velocity = hitDirection * m_HitForce;
     }
 
