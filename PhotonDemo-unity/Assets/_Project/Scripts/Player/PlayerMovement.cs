@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Sprites Configuration")] [Space(10)]
+    [Header("Sprites Configuration")]
+    [Space(10)]
     [SerializeField] private GameObject m_SpritesGameObject;
     [SerializeField] private Animator m_AnimatorController;
     public Animator AnimatorController { get => m_AnimatorController; }
@@ -15,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private readonly Vector3 ToTheRight = new Vector3(0F, 0F, 0F);
     private readonly Vector3 ToTheLeft = new Vector3(0F, -180F, 0F);
 
-    [Header("Player Configuration")] [Space(10)]
+    [Header("Player Configuration")]
+    [Space(10)]
     [SerializeField] private GameObject m_StunnedEffect;
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private float m_JumpVelocity = 24F;
@@ -186,12 +188,19 @@ public class PlayerMovement : MonoBehaviour
         if (GetHorizontalInput < 0) CharacterDirection = Vector2.left;
         else if (GetHorizontalInput > 0) CharacterDirection = Vector2.right;
 
+        this.GetComponent<PhotonView>().RPC("Velocity", RpcTarget.All, new object[] { (GetHorizontalInput == 0 ? 0 : 1) });
+    }
+
+    [PunRPC]
+    public void Velocity()
+    {
         m_AnimatorController.SetInteger("Velocity", GetHorizontalInput == 0 ? 0 : 1);
     }
 
     private void StopPlayer()
     {
         m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
-        m_AnimatorController.SetInteger("Velocity", 0);
+        //m_AnimatorController.SetInteger("Velocity", 0);
+        this.GetComponent<PhotonView>().RPC("Velocity", RpcTarget.All, new object[] { 0 });
     }
 }

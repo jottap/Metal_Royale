@@ -46,11 +46,16 @@ public class PlayerSkillSet : MonoBehaviour
                 if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded)
                 {
                     CanPerformGuitarrada = false;
-                    //TODO JP
-                    m_PlayerMovement.AnimatorController.SetTrigger("Attack");
+                    this.GetComponent<PhotonView>().RPC("SetTrigger", RpcTarget.All);
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void SetTrigger()
+    {
+        m_PlayerMovement.AnimatorController.SetTrigger("Attack");
     }
 
     public void ReleaseSkillSet()
