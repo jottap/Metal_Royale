@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
@@ -27,7 +28,8 @@ public class HitBox : MonoBehaviour
             PlayerSkillSet playerSkillSet = collision.gameObject.GetComponent<PlayerSkillSet>();
             if (playerSkillSet != null)
             {
-                playerSkillSet.HitAndStun(m_OwnPlayerMovement.CharacterDirection);
+                playerSkillSet.GetComponent<PhotonView>().RPC("HitAndStun", RpcTarget.All, new object[] { m_OwnPlayerMovement.CharacterDirection });
+                //playerSkillSet.HitAndStun(m_OwnPlayerMovement.CharacterDirection);
             }
         }
     }

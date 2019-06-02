@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class PlayerSkillSet : MonoBehaviour
 {
@@ -72,6 +73,7 @@ public class PlayerSkillSet : MonoBehaviour
         CanPerformMetalPower = true;
     }
 
+    [PunRPC]
     public void HitAndStun(Vector2 hitDirection)
     {
         m_PlayerMovement.IsStunned = true;

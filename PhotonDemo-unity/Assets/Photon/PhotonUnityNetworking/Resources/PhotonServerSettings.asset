@@ -39,5 +39,7 @@ MonoBehaviour:
   - ScoreSetPhoton
   - m_CharacterDirectionRPC
   - CharacterDirectionRPC
+  - EnableHitBox
+  - HitAndStun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
