@@ -146,7 +146,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 10
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 56c9f54232e3efe479b1ff07a556d406, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_JumpVelocity: 24
   m_MoveSpeed: 6
   m_MidAirControl: 3
+  m_AirJumpMax: 1
 --- !u!1 &5038360366074758394
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +612,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6811227170281737020, guid: 36c017fee6b9ff44c902014b64996d3a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313010972906842199, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
