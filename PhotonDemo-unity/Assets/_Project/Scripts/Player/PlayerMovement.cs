@@ -107,6 +107,11 @@ public class PlayerMovement : MonoBehaviour
         m_IsStunned = value;
         m_StunnedEffect.SetActive(value);
         AnimatorController.SetBool("IsStunned", value);
+
+        if (value == false)
+        {
+            m_PlayerSkillSet.ReleaseSkillSet();
+        }
     }
 
     void Update()
@@ -172,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
     [PunRPC]
     public void TakeHit(Vector2 hitDirection)
     {
-        m_Rigidbody2d.AddForce(hitDirection * m_HitForce, ForceMode2D.Impulse);
+        m_Rigidbody2d.velocity = hitDirection * m_HitForce;
     }
 
     private void PerformJump()

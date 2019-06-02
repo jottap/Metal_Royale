@@ -198,7 +198,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_JumpVelocity: 24
-  m_HitForce: 6
+  m_HitForce: 2
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
