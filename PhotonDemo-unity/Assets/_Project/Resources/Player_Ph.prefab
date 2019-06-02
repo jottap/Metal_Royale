@@ -198,7 +198,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_JumpVelocity: 24
-  m_HitForce: 5
+  m_HitForce: 6
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
@@ -1620,7 +1620,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1672,6 +1672,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19864276, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19864276, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: startDelay.maxCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19864276, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: startDelay.maxCurve.m_Curve.Array.data[1].value
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

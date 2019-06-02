@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
             this.GetComponent<PhotonView>().RPC("SetIsStuned", RpcTarget.All, new object[] { value });
         }
     }
-    private float StunMaxTime = 0.1F;
+    private float StunMaxTime = 1F;
     private float StunTimer = 0F;
 
     private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
