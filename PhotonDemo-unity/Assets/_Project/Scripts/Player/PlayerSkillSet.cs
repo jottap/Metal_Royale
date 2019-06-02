@@ -45,8 +45,8 @@ public class PlayerSkillSet : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.G))
             {
                 Debug.Log("m_CanPerformGuitarrada = " + (CanPerformGuitarrada ? "Sim" : "Não"));
-                Debug.Log("m_PlayerMovement.IsGrounded() = " + (m_PlayerMovement.IsGrounded() ? "Sim" : "Não"));
-                if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded())
+                Debug.Log("m_PlayerMovement.IsGrounded() = " + (m_PlayerMovement.IsGrounded ? "Sim" : "Não"));
+                if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded)
                 {
                     CanPerformGuitarrada = false;
                     //Todo Realizar animação da Guitarrada
