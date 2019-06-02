@@ -230,9 +230,6 @@ MonoBehaviour:
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
-  m_IsStunned: 0
-  StunMaxTime: 1
-  StunTimer: 0
 --- !u!114 &2753684271613765039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d77ae5fb7326b4084f0afc212f926e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnPlayerCollider2D: {fileID: 864909856098513621}
+  m_OwnPlayerCollider2D: {fileID: 8217059354864716514}
   m_OwnPlayerMovement: {fileID: 1428724001985783339}
   m_CollisionDuration: 0.4
 --- !u!1 &5038360366074758394
