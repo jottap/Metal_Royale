@@ -45,9 +45,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_CharacterDirection != value)
             {
-                m_CharacterDirection = value;
-
-                this.GetComponent<PhotonView>().RPC("m_CharacterDirectionRPC", RpcTarget.All);
+                this.GetComponent<PhotonView>().RPC("CharacterDirectionRPC", RpcTarget.All, new object[] { value });
             }
         }
     }
@@ -77,9 +75,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    public void m_CharacterDirectionRPC()
+    public void CharacterDirectionRPC(Vector2 value)
     {
+        m_CharacterDirection = value;
+
         bool isRightDirection = CharacterDirection == Vector2.right;
+        Debug.Log(" Change " + this.name + " isRightDirection : " + isRightDirection);
         if (isRightDirection)
         {
             m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
