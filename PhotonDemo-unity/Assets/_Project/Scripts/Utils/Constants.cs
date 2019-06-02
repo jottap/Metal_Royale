@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Constants
 {
-    public const string PlayerPrefab = "player";
+    public const string PlayerPrefab = "Player_Ph";
     public const string ItemPrefab = "Item";
     public static string SceneGame = "GameScene";
     public static string MainScene = "MainScene";

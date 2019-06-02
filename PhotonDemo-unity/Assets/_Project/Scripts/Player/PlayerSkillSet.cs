@@ -10,7 +10,6 @@ public class PlayerSkillSet : MonoBehaviour
     public bool CanPerformMetalPower { get; set; }
 
     [SerializeField] private Collider2D m_HitBoxCollider2D;
-    private Vector2 m_HitBoxPosition;
 
     private void Awake()
     {
@@ -19,8 +18,6 @@ public class PlayerSkillSet : MonoBehaviour
 
         CanPerformGuitarrada = true;
         CanPerformMetalPower = true;
-
-        m_HitBoxPosition = new Vector2(0.021f, m_HitBoxCollider2D.transform.position.y);
     }
 
     private void Update()
@@ -49,22 +46,11 @@ public class PlayerSkillSet : MonoBehaviour
                 if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded)
                 {
                     CanPerformGuitarrada = false;
-                    //Todo Realizar animação da Guitarrada
-                    //Todo abilitar o hitbox na animação
-                    EnableHitBox();
+                    //TODO JP
+                    m_PlayerMovement.AnimatorController.SetTrigger("Attack");
                 }
             }
         }
-    }
-
-    // método deve ser chamado como evento na animação de Guitarrada
-    public void EnableHitBox()
-    {
-        bool isRightDirection = m_PlayerMovement.CharacterDirection == Vector2.right;
-
-        Vector2 hitBoxPosition = isRightDirection ? m_HitBoxPosition : -m_HitBoxPosition;
-        m_HitBoxCollider2D.transform.localPosition = hitBoxPosition;
-        m_HitBoxCollider2D.gameObject.SetActive(true);
     }
 
     public void ReleaseSkillSet()
@@ -78,7 +64,6 @@ public class PlayerSkillSet : MonoBehaviour
     {
         m_PlayerMovement.IsStunned = true;
         this.GetComponent<PhotonView>().RPC("TakeHit", RpcTarget.All, new object[] { hitDirection });
-        //m_PlayerMovement.TakeHit(hitDirection);
     }
 
     private void PerformMetalPower()

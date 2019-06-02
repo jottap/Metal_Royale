@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7630fb1ff6ef94eb1e21a457c69ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SpritesGameObject: {fileID: 0}
+  m_AnimatorController: {fileID: 0}
   m_StunnedEffect: {fileID: 6678933861029384992}
   platformsLayerMask:
     serializedVersion: 2
@@ -231,7 +233,6 @@ MonoBehaviour:
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
-  m_ArrowHelper: {fileID: 3715386646675186430}
 --- !u!114 &2753684271613765039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +448,7 @@ MonoBehaviour:
   m_OwnPlayerMovement: {fileID: 1428724001985783339}
   m_OwnPlayerSkillSet: {fileID: 2753684271613765039}
   m_CollisionDuration: 0.4
+  m_BoxCollider2D: {fileID: 0}
 --- !u!1 &5038360366074758394
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,6 +873,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5829278381548559876}
     m_Modifications:
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_Name
+      value: StunnedCirclingStars
+      objectReference: {fileID: 0}
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -926,14 +936,6 @@ PrefabInstance:
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.015
-      objectReference: {fileID: 0}
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_Name
-      value: StunnedCirclingStars
-      objectReference: {fileID: 0}
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}

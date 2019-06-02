@@ -7,12 +7,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Player Configuration")]
-    [Space(10)]
+    [Header("Sprites Configuration")] [Space(10)]
+    [SerializeField] private GameObject m_SpritesGameObject;
+    [SerializeField] private Animator m_AnimatorController;
+    public Animator AnimatorController { get => m_AnimatorController; }
+
+    private readonly Vector3 ToTheRight = new Vector3(0F, 0F, 0F);
+    private readonly Vector3 ToTheLeft = new Vector3(0F, -180F, 0F);
+
+    [Header("Player Configuration")] [Space(10)]
     [SerializeField] private GameObject m_StunnedEffect;
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private float m_JumpVelocity = 24F;
-    [SerializeField] private float m_HitForce = 10F;
+    [SerializeField] private float m_HitForce = 30F;
     [SerializeField] private float m_MoveSpeed = 6F;
     [SerializeField] private float m_MidAirControl = 3F;
     [SerializeField] private int m_AirJumpMax = 1;
@@ -23,15 +30,6 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D m_BoxCollider2d;
     private PhotonView m_PhotonView;
     private int m_AirJumpCount = 0;
-
-    //Todo Remove m_ArrowHelper
-    [SerializeField] private GameObject m_ArrowHelper;
-    private Vector3 m_ArrowHelperPosition = new Vector3(0.008F, 0.002F, 0F);
-    private Vector3 m_ArrowHelperRotation = new Vector3(0F, 0F, 20F);
-    private Vector3 m_ArrowHelperScale = new Vector3(0.002F, -0.002F, 1F);
-    private Vector3 m_N_ArrowHelperPosition = new Vector3(-0.008F, 0.002F, 0F);
-    private Vector3 m_N_ArrowHelperRotation = new Vector3(0F, 0F, -20F);
-    private Vector3 m_N_ArrowHelperScale = new Vector3(-0.002F, -0.002F, 1F);
 
     private Vector2 m_CharacterDirection;
     public Vector2 CharacterDirection
@@ -59,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
             this.GetComponent<PhotonView>().RPC("SetIsStuned", RpcTarget.All, new object[] { value });
         }
     }
-    private float StunMaxTime = 1F;
+    private float StunMaxTime = 0.1F;
     private float StunTimer = 0F;
 
     private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
@@ -90,18 +88,13 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterDirection = value;
 
         bool isRightDirection = CharacterDirection == Vector2.right;
-        //Debug.Log(" Change " + this.name + " isRightDirection : " + isRightDirection);
         if (isRightDirection)
         {
-            m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
-            m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_ArrowHelperRotation);
-            m_ArrowHelper.transform.localScale = m_ArrowHelperScale;
+            m_SpritesGameObject.transform.localRotation = Quaternion.Euler(ToTheRight);
         }
         else
         {
-            m_ArrowHelper.transform.localPosition = m_N_ArrowHelperPosition;
-            m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_N_ArrowHelperRotation);
-            m_ArrowHelper.transform.localScale = m_N_ArrowHelperScale;
+            m_SpritesGameObject.transform.localRotation = Quaternion.Euler(ToTheLeft);
         }
     }
 
@@ -111,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(" SetStuned : " + value);
         m_IsStunned = value;
         m_StunnedEffect.SetActive(value);
+        AnimatorController.SetBool("IsStunned", value);
     }
 
     void Update()
@@ -157,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         IsStunned = false;
                         StunTimer = 0F;
+                        StopPlayer();
                     }
                 }
             }
@@ -188,15 +183,15 @@ public class PlayerMovement : MonoBehaviour
 
         m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
 
-        if (GetHorizontalInput < 0)
-            CharacterDirection = Vector2.left;
-        else if (GetHorizontalInput > 0)
-            CharacterDirection = Vector2.right;
+        if (GetHorizontalInput < 0) CharacterDirection = Vector2.left;
+        else if (GetHorizontalInput > 0) CharacterDirection = Vector2.right;
 
+        m_AnimatorController.SetInteger("Velocity", GetHorizontalInput == 0 ? 0 : 1);
     }
 
     private void StopPlayer()
     {
         m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
+        m_AnimatorController.SetInteger("Velocity", 0);
     }
 }

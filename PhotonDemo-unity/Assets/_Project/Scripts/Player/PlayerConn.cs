@@ -35,8 +35,6 @@ public class PlayerConn : MonoBehaviour
         }
     }
 
-
-
     public TextMeshProUGUI NameLabel { get => m_textMeshProUGUI; set => m_textMeshProUGUI = value; }
 
     [Header("HUD")]
