@@ -11,14 +11,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField]
-    private GameObject m_panel;
-
-    [SerializeField]
-    private GameObject m_hudScorePrefab;
-
-    [SerializeField]
     private List<PlayerConn> m_PlayerList;
     public List<PlayerConn> PlayerList { get => m_PlayerList; set => m_PlayerList = value; }
+
+    [SerializeField]
+    private float m_timeRespawnItem;
 
     #endregion
 
@@ -31,6 +28,16 @@ public class GameManager : MonoBehaviour
         playerGo.GetComponent<PlayerConn>().Init();
 
         SubscriveEvent();
+
+        StartCoroutine(GenerateItem());
+    }
+    public IEnumerator GenerateItem()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(m_timeRespawnItem);
+            PhotonNetwork.Instantiate(Constants.ItemPrefab, new Vector3(Random.Range(-5, 5), 7, 0), Quaternion.identity);
+        }
     }
 
     private void OnDestroy()
