@@ -119,50 +119,47 @@ public class PlayerMovement : MonoBehaviour
         if (ItIsMe())
         {
             bool isPerformingSkillSet = !m_PlayerSkillSet.CanPerformGuitarrada || !m_PlayerSkillSet.CanPerformMetalPower;
-            if (!isPerformingSkillSet)
+            if (!IsStunned && !isPerformingSkillSet)
             {
-                if (!IsStunned)
-                {
-                    bool isGrounded = IsGrounded;
+                bool isGrounded = IsGrounded;
 
+                if (isGrounded)
+                {
+                    m_AirJumpCount = 0;
+                }
+
+                if (GetJumpInput)
+                {
                     if (isGrounded)
                     {
-                        m_AirJumpCount = 0;
+                        PerformJump();
                     }
-
-                    if (GetJumpInput)
+                    else
                     {
-                        if (isGrounded)
+                        if (GetJumpInput)
                         {
-                            PerformJump();
-                        }
-                        else
-                        {
-                            if (GetJumpInput)
+                            if (m_AirJumpCount < m_AirJumpMax)
                             {
-                                if (m_AirJumpCount < m_AirJumpMax)
-                                {
-                                    PerformJump();
-                                    m_AirJumpCount++;
-                                }
+                                PerformJump();
+                                m_AirJumpCount++;
                             }
                         }
                     }
-
-                    HandleMovement_FullMidAirControl();
                 }
-                else
+
+                HandleMovement_FullMidAirControl();
+            }
+            else if (IsStunned)
+            {
+                StunTimer += Time.deltaTime;
+                if (StunTimer >= StunMaxTime)
                 {
-                    StunTimer += Time.deltaTime;
-                    if (StunTimer >= StunMaxTime)
-                    {
-                        IsStunned = false;
-                        StunTimer = 0F;
-                        StopPlayer();
-                    }
+                    IsStunned = false;
+                    StunTimer = 0F;
+                    StopPlayer();
                 }
             }
-            else
+            else if (isPerformingSkillSet)
             {
                 StopPlayer();
             }
