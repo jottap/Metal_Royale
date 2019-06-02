@@ -17,7 +17,7 @@ public class Item : MonoBehaviour
     [PunRPC]
     private void DestroyItem()
     {
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     private void Update()
