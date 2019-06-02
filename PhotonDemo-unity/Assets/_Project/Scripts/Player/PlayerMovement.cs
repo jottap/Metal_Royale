@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Player Configuration")] [Space(10)]
+    [Header("Player Configuration")]
+    [Space(10)]
     [SerializeField] private GameObject m_StunnedEffect;
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private float m_JumpVelocity = 24F;
@@ -33,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 m_N_ArrowHelperScale = new Vector3(-0.002F, -0.002F, 1F);
 
     private Vector2 m_CharacterDirection;
-    public Vector2 CharacterDirection {
+    public Vector2 CharacterDirection
+    {
         get
         {
             return m_CharacterDirection;
@@ -45,25 +47,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 m_CharacterDirection = value;
 
-                bool isRightDirection = CharacterDirection == Vector2.right;
-                if (isRightDirection)
-                {
-                    m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
-                    m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_ArrowHelperRotation);
-                    m_ArrowHelper.transform.localScale = m_ArrowHelperScale;
-                }
-                else
-                {
-                    m_ArrowHelper.transform.localPosition = m_N_ArrowHelperPosition;
-                    m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_N_ArrowHelperRotation);
-                    m_ArrowHelper.transform.localScale = m_N_ArrowHelperScale;
-                }
+                this.GetComponent<PhotonView>().RPC("m_CharacterDirectionRPC", RpcTarget.All);
             }
         }
     }
 
     private bool m_IsStunned;
-    public bool IsStunned {
+    public bool IsStunned
+    {
         get => m_IsStunned;
         set
         {
@@ -84,6 +75,25 @@ public class PlayerMovement : MonoBehaviour
         CharacterDirection = Vector2.right;
         IsStunned = false;
     }
+
+    [PunRPC]
+    public void m_CharacterDirectionRPC()
+    {
+        bool isRightDirection = CharacterDirection == Vector2.right;
+        if (isRightDirection)
+        {
+            m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
+            m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_ArrowHelperRotation);
+            m_ArrowHelper.transform.localScale = m_ArrowHelperScale;
+        }
+        else
+        {
+            m_ArrowHelper.transform.localPosition = m_N_ArrowHelperPosition;
+            m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_N_ArrowHelperRotation);
+            m_ArrowHelper.transform.localScale = m_N_ArrowHelperScale;
+        }
+    }
+
 
     void Update()
     {

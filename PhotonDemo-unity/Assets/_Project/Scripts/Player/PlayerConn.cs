@@ -30,13 +30,12 @@ public class PlayerConn : MonoBehaviour
         {
             if (value <= m_MaxScore)
             {
-                m_score = value;
                 this.GetComponent<PhotonView>().RPC("ScoreSetPhoton", RpcTarget.All, new object[] { value });
             }
         }
     }
 
-    
+
 
     public TextMeshProUGUI NameLabel { get => m_textMeshProUGUI; set => m_textMeshProUGUI = value; }
 
@@ -79,6 +78,7 @@ public class PlayerConn : MonoBehaviour
     [PunRPC]
     public void ScoreSetPhoton(int value)
     {
+        m_score = value;
         ScoreHud.ScoreSet(value);
     }
 
