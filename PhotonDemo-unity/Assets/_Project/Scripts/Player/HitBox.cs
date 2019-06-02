@@ -16,15 +16,15 @@ public class HitBox : MonoBehaviour
         m_BoxCollider2D = GetComponent<Collider2D>();
     }
 
-    private void Update()
-    {
-        m_CollisionTimer += Time.deltaTime;
-        if (m_CollisionTimer >= m_CollisionDuration)
-        {
-            m_CollisionTimer = 0;
-            m_BoxCollider2D.enabled = false;
-        }
-    }
+    //private void Update()
+    //{
+    //    m_CollisionTimer += Time.deltaTime;
+    //    if (m_CollisionTimer >= m_CollisionDuration)
+    //    {
+    //        m_CollisionTimer = 0;
+    //        m_BoxCollider2D.enabled = false;
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
