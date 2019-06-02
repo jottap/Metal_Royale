@@ -63,6 +63,15 @@ public class PlayerMovement : MonoBehaviour
     private float StunMaxTime = 1F;
     private float StunTimer = 0F;
 
+    private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
+    private bool GetJumpInput { get => Input.GetButtonDown("Jump"); }
+    public bool IsGrounded {
+        get {
+            RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
+            return raycastHit2d.collider != null;
+        }
+    }
+
     private void Awake()
     {
         //playerBase = gameObject.GetComponent<Player_Base>();
@@ -105,14 +114,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (!IsStunned)
                 {
-                    bool isGrounded = IsGrounded();
+                    bool isGrounded = IsGrounded;
 
                     if (isGrounded)
                     {
                         m_AirJumpCount = 0;
                     }
 
-                    if (Input.GetKey(KeyCode.Space))
+                    if (GetJumpInput)
                     {
                         if (isGrounded)
                         {
@@ -120,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
                         }
                         else
                         {
-                            if (Input.GetKeyDown(KeyCode.Space))
+                            if (GetJumpInput)
                             {
                                 if (m_AirJumpCount < m_AirJumpMax)
                                 {
@@ -160,12 +169,6 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody2d.velocity = hitDirection * m_HitForce;
     }
 
-    public bool IsGrounded()
-    {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
-        return raycastHit2d.collider != null;
-    }
-
     private void PerformJump()
     {
         m_Rigidbody2d.velocity = Vector2.up * m_JumpVelocity;
@@ -173,25 +176,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement_FullMidAirControl()
     {
-        float moveSpeed = m_MoveSpeed;
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            m_Rigidbody2d.velocity = new Vector2(-moveSpeed, m_Rigidbody2d.velocity.y);
+
+        m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
+
+        if (GetHorizontalInput < 0)
             CharacterDirection = Vector2.left;
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                m_Rigidbody2d.velocity = new Vector2(+moveSpeed, m_Rigidbody2d.velocity.y);
-                CharacterDirection = Vector2.right;
-            }
-            else
-            {
-                // No keys pressed
-                StopPlayer();
-            }
-        }
+        else if(GetHorizontalInput > 0)
+            CharacterDirection = Vector2.right;
+
     }
 
     private void StopPlayer()
