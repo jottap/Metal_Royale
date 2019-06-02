@@ -77,7 +77,8 @@ public class PlayerSkillSet : MonoBehaviour
     public void HitAndStun(Vector2 hitDirection)
     {
         m_PlayerMovement.IsStunned = true;
-        m_PlayerMovement.TakeHit(hitDirection);
+        this.GetComponent<PhotonView>().RPC("TakeHit", RpcTarget.All, new object[] { hitDirection });
+        //m_PlayerMovement.TakeHit(hitDirection);
     }
 
     private void PerformMetalPower()

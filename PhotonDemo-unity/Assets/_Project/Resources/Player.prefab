@@ -108,7 +108,7 @@ MonoBehaviour:
   m_textMeshProUGUI: {fileID: 7907081470923867390}
   m_MaxScore: 10
   m_score: 0
-  ScoreHud: {fileID: 7297985010318177797}
+  ScoreHud: {fileID: 4305988478849090846}
 --- !u!61 &8217059354864716514
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 2
   ObservedComponents:
   - {fileID: 8369505323088066569}
   - {fileID: 6687075091833927319}
@@ -227,7 +227,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_JumpVelocity: 24
-  m_HitForce: 10
+  m_HitForce: 2
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
@@ -478,7 +478,7 @@ RectTransform:
   m_LocalScale: {x: -0.004, y: 0.004, z: 1}
   m_Children:
   - {fileID: 3627930019673124363}
-  - {fileID: 7297985010318177796}
+  - {fileID: 4305988478849090851}
   m_Father: {fileID: 5829278381548559876}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -846,13 +846,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c017fee6b9ff44c902014b64996d3a, type: 3}
---- !u!224 &7297985010318177796 stripped
+--- !u!224 &4305988478849090851 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6811227171011064292, guid: 36c017fee6b9ff44c902014b64996d3a,
     type: 3}
   m_PrefabInstance: {fileID: 4305988478849091552}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7297985010318177797 stripped
+--- !u!114 &4305988478849090846 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6811227171011064293, guid: 36c017fee6b9ff44c902014b64996d3a,
     type: 3}
@@ -871,14 +871,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5829278381548559876}
     m_Modifications:
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_Name
-      value: StunnedCirclingStars
-      objectReference: {fileID: 0}
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -934,6 +926,14 @@ PrefabInstance:
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_Name
+      value: StunnedCirclingStars
+      objectReference: {fileID: 0}
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}

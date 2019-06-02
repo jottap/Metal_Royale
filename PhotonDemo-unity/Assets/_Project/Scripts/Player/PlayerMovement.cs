@@ -56,8 +56,7 @@ public class PlayerMovement : MonoBehaviour
         get => m_IsStunned;
         set
         {
-            m_IsStunned = value;
-            m_StunnedEffect.SetActive(value);
+            this.GetComponent<PhotonView>().RPC("SetIsStuned", RpcTarget.All, new object[] { value });
         }
     }
     private float StunMaxTime = 1F;
@@ -65,8 +64,10 @@ public class PlayerMovement : MonoBehaviour
 
     private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
     private bool GetJumpInput { get => Input.GetButtonDown("Jump"); }
-    public bool IsGrounded {
-        get {
+    public bool IsGrounded
+    {
+        get
+        {
             RaycastHit2D raycastHit2d = Physics2D.BoxCast(m_BoxCollider2d.bounds.center, m_BoxCollider2d.bounds.size, 0f, Vector2.down, 0.1F, platformsLayerMask);
             return raycastHit2d.collider != null;
         }
@@ -89,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterDirection = value;
 
         bool isRightDirection = CharacterDirection == Vector2.right;
-        Debug.Log(" Change " + this.name + " isRightDirection : " + isRightDirection);
+        //Debug.Log(" Change " + this.name + " isRightDirection : " + isRightDirection);
         if (isRightDirection)
         {
             m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
@@ -104,6 +105,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    public void SetIsStuned(bool value)
+    {
+        Debug.Log(" SetStuned : " + value);
+        m_IsStunned = value;
+        m_StunnedEffect.SetActive(value);
+    }
 
     void Update()
     {
@@ -164,9 +172,10 @@ public class PlayerMovement : MonoBehaviour
         return m_PhotonView.IsMine;
     }
 
+    [PunRPC]
     public void TakeHit(Vector2 hitDirection)
     {
-        m_Rigidbody2d.velocity = hitDirection * m_HitForce;
+        m_Rigidbody2d.AddForce(hitDirection * m_HitForce, ForceMode2D.Impulse);
     }
 
     private void PerformJump()
@@ -181,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (GetHorizontalInput < 0)
             CharacterDirection = Vector2.left;
-        else if(GetHorizontalInput > 0)
+        else if (GetHorizontalInput > 0)
             CharacterDirection = Vector2.right;
 
     }
