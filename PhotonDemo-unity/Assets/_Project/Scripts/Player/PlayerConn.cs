@@ -64,10 +64,33 @@ public class PlayerConn : MonoBehaviour
     {
         m_canvas.transform.LookAt(Camera.main.transform);
 
-        if (transform.position.y <= -8)
-        {
-            transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
-        }
+        if (transform.position.y <= -8) SetRespawn();
+        //this.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
+
+
+    }
+
+    private void SetRespawn()
+    {
+        //GetComponent<PhotonView>().RPC("SetRespawnPlayer", RpcTarget.MasterClient);
+        if (!GetComponent<PhotonView>().IsMine)
+            return;
+
+        this.GetComponent<PhotonView>().RPC("SetPosition", RpcTarget.All);
+        GameManager.Instance.SetRespawnPlayer(this.gameObject);
+    }
+
+    [PunRPC]
+    public void SetPosition()
+    {
+        this.transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
+        gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    private void RespawnPlayer()
+    {
+        gameObject.SetActive(true);
     }
 
     public void GetItem()

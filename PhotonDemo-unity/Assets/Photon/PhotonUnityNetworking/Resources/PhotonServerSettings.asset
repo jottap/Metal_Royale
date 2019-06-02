@@ -42,5 +42,9 @@ MonoBehaviour:
   - EnableHitBox
   - HitAndStun
   - SetIsStuned
+  - RespawnPlayer
+  - TakeHit
+  - SetRespawnPlayer
+  - SetPosition
   DisableAutoOpenWizard: 1
   ShowSettings: 1

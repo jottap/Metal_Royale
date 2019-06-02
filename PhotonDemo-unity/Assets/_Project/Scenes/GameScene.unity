@@ -472,6 +472,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerList: []
   m_timeRespawnItem: 1
+  ButtonRespawn: {fileID: 345788552}
+  playerRespawn: {fileID: 345788550}
 --- !u!4 &206048816
 Transform:
   m_ObjectHideFlags: 0
@@ -663,7 +665,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 206048815}
-        m_MethodName: Disconnect
+        m_MethodName: RespawnPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 {
     #region Variables
 
+    public static GameManager Instance;
+
     [Header("Settings")]
     [SerializeField]
     private List<PlayerConn> m_PlayerList;
@@ -17,7 +19,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float m_timeRespawnItem;
 
+    public Button ButtonRespawn;
+    public GameObject playerRespawn;
+
     #endregion
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +73,19 @@ public class GameManager : MonoBehaviour
     public void LoadMain()
     {
         SceneManager.LoadScene(Constants.MainScene);
+    }
+
+    public void SetRespawnPlayer(GameObject player)
+    {
+        playerRespawn = player;
+        Debug.Log(" playerRespawn : " + playerRespawn.transform.position);
+        ButtonRespawn.gameObject.SetActive(true);
+    }
+
+    public void RespawnPlayer()
+    {
+        playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
+        ButtonRespawn.gameObject.SetActive(false);
     }
 
 }
