@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerConn>() && collision.GetComponent<PhotonView>().IsMine)
@@ -25,4 +20,11 @@ public class Item : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void Update()
+    {
+        if (transform.position.y <= -8)
+        {
+            this.GetComponent<PhotonView>().RPC("DestroyItem", RpcTarget.All);
+        }
+    }
 }
