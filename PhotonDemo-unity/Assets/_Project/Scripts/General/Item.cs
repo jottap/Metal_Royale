@@ -9,7 +9,7 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<PlayerConn>() && collision.GetComponent<PhotonView>().IsMine)
         {
-            this.GetComponent<PhotonView>().RPC("DestroyItem", RpcTarget.All);
+            this.GetComponent<PhotonView>().RPC("DestroyItem", RpcTarget.AllBufferedViaServer);
             collision.gameObject.GetComponent<PlayerConn>().GetItem();
         }
     }
@@ -17,14 +17,14 @@ public class Item : MonoBehaviour
     [PunRPC]
     private void DestroyItem()
     {
-        PhotonNetwork.Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 
     private void Update()
     {
         if (transform.position.y <= -8)
         {
-            this.GetComponent<PhotonView>().RPC("DestroyItem", RpcTarget.All);
+            this.GetComponent<PhotonView>().RPC("DestroyItem", RpcTarget.AllBufferedViaServer);
         }
     }
 }
