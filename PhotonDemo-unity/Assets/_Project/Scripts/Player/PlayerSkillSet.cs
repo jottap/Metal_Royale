@@ -5,19 +5,21 @@ public class PlayerSkillSet : MonoBehaviour
     private PlayerMovement m_PlayerMovement;
     private PlayerConn m_PlayerConn;
 
-    private bool m_CanPerformGuitarrada;
-    private bool m_CanPerformMetalPower;
+    public bool CanPerformGuitarrada { get; set; }
+    public bool CanPerformMetalPower { get; set; }
 
     [SerializeField] private Collider2D m_HitBoxCollider2D;
-    private float m_HitBoxPosition = 0.015f;
+    private Vector2 m_HitBoxPosition;
 
     private void Awake()
     {
         m_PlayerMovement = transform.GetComponent<PlayerMovement>();
         m_PlayerConn = transform.GetComponent<PlayerConn>();
 
-        m_CanPerformGuitarrada = true;
-        m_CanPerformMetalPower = true;
+        CanPerformGuitarrada = true;
+        CanPerformMetalPower = true;
+
+        m_HitBoxPosition = new Vector2(0.021f, m_HitBoxCollider2D.transform.position.y);
     }
 
     private void Update()
@@ -41,9 +43,11 @@ public class PlayerSkillSet : MonoBehaviour
             //else
             if (Input.GetKeyDown(KeyCode.G))
             {
-                if (m_CanPerformGuitarrada && m_PlayerMovement.IsGrounded())
+                Debug.Log("m_CanPerformGuitarrada = " + (CanPerformGuitarrada ? "Sim" : "Não"));
+                Debug.Log("m_PlayerMovement.IsGrounded() = " + (m_PlayerMovement.IsGrounded() ? "Sim" : "Não"));
+                if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded())
                 {
-                    m_CanPerformGuitarrada = false;
+                    CanPerformGuitarrada = false;
                     //Todo Realizar animação da Guitarrada
                     //Todo abilitar o hitbox na animação
                     EnableHitBox();
@@ -55,13 +59,17 @@ public class PlayerSkillSet : MonoBehaviour
     // método deve ser chamado como evento na animação de Guitarrada
     public void EnableHitBox()
     {
+        bool isRightDirection = m_PlayerMovement.CharacterDirection == Vector2.right;
+
+        Vector2 hitBoxPosition = isRightDirection ? m_HitBoxPosition : -m_HitBoxPosition;
+        m_HitBoxCollider2D.transform.localPosition = hitBoxPosition;
         m_HitBoxCollider2D.gameObject.SetActive(true);
     }
 
     public void ReleaseSkillSet()
     {
-        m_CanPerformGuitarrada = true;
-        m_CanPerformMetalPower = true;
+        CanPerformGuitarrada = true;
+        CanPerformMetalPower = true;
     }
 
     public void HitAndStun(Vector2 hitDirection)

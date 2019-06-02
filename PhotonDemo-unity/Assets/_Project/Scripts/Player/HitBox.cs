@@ -4,6 +4,7 @@ public class HitBox : MonoBehaviour
 {
     [SerializeField] private Collider2D m_OwnPlayerCollider2D;
     [SerializeField] private PlayerMovement m_OwnPlayerMovement;
+    [SerializeField] private PlayerSkillSet m_OwnPlayerSkillSet;
     [SerializeField] private float m_CollisionDuration = 0.4F;
 
     private float m_CollisionTimer = 0F;
@@ -13,13 +14,10 @@ public class HitBox : MonoBehaviour
         m_CollisionTimer += Time.deltaTime;
         if (m_CollisionTimer >= m_CollisionDuration)
         {
+            m_CollisionTimer = 0;
             gameObject.SetActive(false);
+            m_OwnPlayerSkillSet.ReleaseSkillSet();
         }
-    }
-
-    private void OnDisable()
-    {
-        m_CollisionTimer = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,7 +28,6 @@ public class HitBox : MonoBehaviour
             if (playerSkillSet != null)
             {
                 playerSkillSet.HitAndStun(m_OwnPlayerMovement.CharacterDirection);
-                playerSkillSet.ReleaseSkillSet();
             }
         }
     }

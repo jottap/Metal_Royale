@@ -17,10 +17,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int m_AirJumpMax = 1;
 
     //private Player_Base playerBase;
+    private PlayerSkillSet m_PlayerSkillSet;
     private Rigidbody2D m_Rigidbody2d;
     private BoxCollider2D m_BoxCollider2d;
     private PhotonView m_PhotonView;
     private int m_AirJumpCount = 0;
+
+    //Todo Remove m_ArrowHelper
+    [SerializeField] private GameObject m_ArrowHelper;
+    private Vector3 m_ArrowHelperPosition = new Vector3(0.008F, 0.002F, 0F);
+    private Vector3 m_ArrowHelperRotation = new Vector3(0F, 0F, 20F);
+    private Vector3 m_ArrowHelperScale = new Vector3(0.002F, -0.002F, 1F);
+    private Vector3 m_N_ArrowHelperPosition = new Vector3(-0.008F, 0.002F, 0F);
+    private Vector3 m_N_ArrowHelperRotation = new Vector3(0F, 0F, -20F);
+    private Vector3 m_N_ArrowHelperScale = new Vector3(-0.002F, -0.002F, 1F);
 
     private Vector2 m_CharacterDirection;
     public Vector2 CharacterDirection {
@@ -31,7 +41,24 @@ public class PlayerMovement : MonoBehaviour
 
         set
         {
-            m_CharacterDirection = value;
+            if (m_CharacterDirection != value)
+            {
+                m_CharacterDirection = value;
+
+                bool isRightDirection = CharacterDirection == Vector2.right;
+                if (isRightDirection)
+                {
+                    m_ArrowHelper.transform.localPosition = m_ArrowHelperPosition;
+                    m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_ArrowHelperRotation);
+                    m_ArrowHelper.transform.localScale = m_ArrowHelperScale;
+                }
+                else
+                {
+                    m_ArrowHelper.transform.localPosition = m_N_ArrowHelperPosition;
+                    m_ArrowHelper.transform.localRotation = Quaternion.Euler(m_N_ArrowHelperRotation);
+                    m_ArrowHelper.transform.localScale = m_N_ArrowHelperScale;
+                }
+            }
         }
     }
 
@@ -50,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         //playerBase = gameObject.GetComponent<Player_Base>();
+        m_PlayerSkillSet = transform.GetComponent<PlayerSkillSet>();
         m_Rigidbody2d = transform.GetComponent<Rigidbody2D>();
         m_BoxCollider2d = transform.GetComponent<BoxCollider2D>();
         m_PhotonView = GetComponent<PhotonView>();
@@ -61,44 +89,52 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ItIsMe())
         {
-            if (!IsStunned)
+            bool isPerformingSkillSet = !m_PlayerSkillSet.CanPerformGuitarrada || !m_PlayerSkillSet.CanPerformMetalPower;
+            if (!isPerformingSkillSet)
             {
-                bool isGrounded = IsGrounded();
-
-                if (isGrounded)
+                if (!IsStunned)
                 {
-                    m_AirJumpCount = 0;
-                }
+                    bool isGrounded = IsGrounded();
 
-                if (Input.GetKey(KeyCode.Space))
-                {
                     if (isGrounded)
                     {
-                        PerformJump();
+                        m_AirJumpCount = 0;
                     }
-                    else
+
+                    if (Input.GetKey(KeyCode.Space))
                     {
-                        if (Input.GetKeyDown(KeyCode.Space))
+                        if (isGrounded)
                         {
-                            if (m_AirJumpCount < m_AirJumpMax)
+                            PerformJump();
+                        }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.Space))
                             {
-                                PerformJump();
-                                m_AirJumpCount++;
+                                if (m_AirJumpCount < m_AirJumpMax)
+                                {
+                                    PerformJump();
+                                    m_AirJumpCount++;
+                                }
                             }
                         }
                     }
-                }
 
-                HandleMovement_FullMidAirControl();
+                    HandleMovement_FullMidAirControl();
+                }
+                else
+                {
+                    StunTimer += Time.deltaTime;
+                    if (StunTimer >= StunMaxTime)
+                    {
+                        IsStunned = false;
+                        StunTimer = 0F;
+                    }
+                }
             }
             else
             {
-                StunTimer += Time.deltaTime;
-                if (StunTimer >= StunMaxTime)
-                {
-                    IsStunned = false;
-                    StunTimer = 0F;
-                }
+                StopPlayer();
             }
         }
     }
@@ -142,8 +178,13 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 // No keys pressed
-                m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
+                StopPlayer();
             }
         }
+    }
+
+    private void StopPlayer()
+    {
+        m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
     }
 }
