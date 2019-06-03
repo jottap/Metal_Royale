@@ -1741,6 +1741,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0.22856282
       objectReference: {fileID: 0}
+    - target: {fileID: 1406395363447506462, guid: 36c017fee6b9ff44c902014b64996d3a,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5313010972906842199, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1751,10 +1756,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1406395363447506462, guid: 36c017fee6b9ff44c902014b64996d3a,
+    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
-      propertyPath: m_Value
-      value: 0
+      propertyPath: m_Color.r
+      value: 0.77254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.77254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.77254903
       objectReference: {fileID: 0}
     - target: {fileID: 2221717046385473310, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
@@ -1770,21 +1785,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.35686275
-      objectReference: {fileID: 0}
-    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.77254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.77254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.77254903
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c017fee6b9ff44c902014b64996d3a, type: 3}
@@ -1906,6 +1906,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoundHitYellow
       objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 434256, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1962,23 +1974,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.4
       objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: InitialModule.startRotationX.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: InitialModule.startRotationY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+    - target: {fileID: 19859836, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19849126, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19859836, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
