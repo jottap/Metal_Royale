@@ -54,7 +54,14 @@ public class Conn : MonoBehaviourPunCallbacks
     public void CreateRoom(string nameRoom)
     {
         Debug.Log(" JoinOrCreateRoom !");
-        PhotonNetwork.JoinOrCreateRoom(nameRoom, new RoomOptions(), TypedLobby.Default);
+        if (string.IsNullOrEmpty(nameRoom))
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
+        else
+        {
+            PhotonNetwork.JoinOrCreateRoom(nameRoom, new RoomOptions(), TypedLobby.Default);
+        }
     }
 
     #region PhotonMethods
