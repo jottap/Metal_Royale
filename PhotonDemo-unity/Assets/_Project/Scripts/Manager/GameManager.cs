@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     private Button ButtonStartGame;
 
     [SerializeField]
+    private GameObject WaintingStart;
+
+    [SerializeField]
     private GameObject playerRespawn;
 
     [SerializeField]
@@ -112,11 +115,15 @@ public class GameManager : MonoBehaviour
 
         if (timerIncrementValue >= timer)
         {
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-
-            }
             StopGame();
+        }
+    }
+
+    public void CheckDeath()
+    {
+        foreach (var item in PhotonNetwork.PlayerList)
+        {
+            Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
         }
     }
 
@@ -170,12 +177,28 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
         StartCoroutine(GenerateItem());
+
+        //foreach (var item in PhotonNetwork.PlayerList)
+        //{
+        //    Debug.Log(" IsDeath :: " + ((PlayerConn)item.CustomProperties["PlayerCoon"]).IsDeath);
+        //}
     }
 
     public void StopGame()
     {
         m_isGameStarted = false;
-        ButtonStartGame.gameObject.SetActive(true);
+        ButtonRespawn.gameObject.SetActive(false);
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            ButtonStartGame.gameObject.SetActive(true);
+            CheckDeath();
+        }
+        else
+        {
+            WaintingStart.gameObject.SetActive(true);
+        }
+
         startTimer = false;
 
         ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
@@ -200,6 +223,11 @@ public class GameManager : MonoBehaviour
         playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
         playerRespawn.gameObject.SetActive(true);
         ButtonRespawn.gameObject.SetActive(false);
+    }
+
+    public void ResetPlayer()
+    {
+
     }
 
     public void SetVar()
