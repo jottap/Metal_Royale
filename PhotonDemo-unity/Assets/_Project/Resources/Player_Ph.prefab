@@ -59,6 +59,7 @@ MonoBehaviour:
   m_MaxScore: 10
   m_score: 0
   ScoreHud: {fileID: 5754093686823402929}
+  isDeath: 0
 --- !u!70 &2143898962085571493
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1757,32 +1758,32 @@ PrefabInstance:
     - target: {fileID: 2221717046385473310, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.7735849
+      value: 0.35686275
       objectReference: {fileID: 0}
     - target: {fileID: 2221717046385473310, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.7735849
+      value: 0.35686275
       objectReference: {fileID: 0}
     - target: {fileID: 2221717046385473310, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.7735849
+      value: 0.35686275
       objectReference: {fileID: 0}
     - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.35686275
+      value: 0.77254903
       objectReference: {fileID: 0}
     - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.35686275
+      value: 0.77254903
       objectReference: {fileID: 0}
     - target: {fileID: 3903793379855975975, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.35686275
+      value: 0.77254903
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c017fee6b9ff44c902014b64996d3a, type: 3}
