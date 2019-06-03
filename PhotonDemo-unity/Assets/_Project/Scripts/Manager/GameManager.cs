@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
             ButtonStartGame.gameObject.SetActive(true);
 
-            StartCoroutine(GenerateItem());
         }
         else
         {
@@ -123,7 +122,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GenerateItem()
     {
-        while (true)
+        while (true && m_isGameStarted)
         {
             yield return new WaitForSeconds(m_timeRespawnItem);
             PhotonNetwork.Instantiate(Constants.ItemPrefab, new Vector3(Random.Range(-5, 5), 7, 0), Quaternion.identity);
@@ -170,6 +169,7 @@ public class GameManager : MonoBehaviour
         CustomeValue.Add("IsGameStarted", m_isGameStarted);
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
+        StartCoroutine(GenerateItem());
     }
 
     public void StopGame()
