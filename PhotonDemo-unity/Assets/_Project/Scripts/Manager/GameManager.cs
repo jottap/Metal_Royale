@@ -176,6 +176,7 @@ public class GameManager : MonoBehaviour
     {
         m_isGameStarted = false;
         ButtonStartGame.gameObject.SetActive(true);
+        startTimer = false;
 
         ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
         startTime = PhotonNetwork.Time;
