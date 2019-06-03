@@ -51,5 +51,6 @@ MonoBehaviour:
   - SetVelocity
   - SetTriggerAttack
   - SetTriggerUltimate
+  - PerformWin
   DisableAutoOpenWizard: 1
   ShowSettings: 1
