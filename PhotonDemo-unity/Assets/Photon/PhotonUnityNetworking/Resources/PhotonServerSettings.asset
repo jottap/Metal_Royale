@@ -52,5 +52,8 @@ MonoBehaviour:
   - SetTriggerAttack
   - SetTriggerUltimate
   - PerformWin
+  - SetRespawn
+  - StartRespawn
+  - WinGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1

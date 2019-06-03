@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -51,6 +52,9 @@ public class GameManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField]
     private TextMeshProUGUI m_DebugLabel;
+
+    [SerializeField]
+    private List<PlayerConn> m_PlayerListLive;
 
     #endregion
 
@@ -101,7 +105,7 @@ public class GameManager : MonoBehaviour
 
         if (!startTimer)
         {
-            if (PhotonNetwork.LocalPlayer.CustomProperties.Count > 0 && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerCoon"])
+            if (PhotonNetwork.LocalPlayer.CustomProperties.Count > 0 && (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsDeath"])
                 WaintingStart.gameObject.SetActive(true);
 
             return;
@@ -123,12 +127,32 @@ public class GameManager : MonoBehaviour
         int i = 0;
         foreach (var item in PhotonNetwork.PlayerList)
         {
-            Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
+            Debug.Log(" IsDeath :: " + item.CustomProperties["VIEWID"]);
+            Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["IsDeath"]));
+            Debug.Log(" IsDeath :: " + item.UserId);
+            Debug.Log(" IsDeath :: " + item.ActorNumber);
+
+            if (((bool)item.CustomProperties["IsDeath"]))
+            {
+                PlayerConn aux = PlayerList.FirstOrDefault(x => x.GetComponent<PhotonView>().Owner.UserId == item.UserId);
+                m_PlayerListLive.Remove(aux);
+            }
         }
 
-        foreach (var item in PlayerList)
+        //Empate
+        if (m_PlayerListLive.Count == 0)
         {
-            item.GetComponent<PhotonView>().RPC("SetRespawn", RpcTarget.All);
+
+            ButtonStartGame.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (m_PlayerListLive.Count == 1)
+            {
+                //WIN
+                m_PlayerListLive[0].GetComponent<PlayerMovement>().WinGame();
+                ButtonStartGame.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -168,6 +192,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        m_PlayerListLive = new List<PlayerConn>(m_PlayerList);
+
         IsGameStarted = true;
         ButtonStartGame.gameObject.SetActive(false);
         startTime = PhotonNetwork.Time;
@@ -186,13 +212,8 @@ public class GameManager : MonoBehaviour
 
         foreach (var item in PlayerList)
         {
-            item.GetComponent<PhotonView>().RPC("SetRespawn", RpcTarget.All);
+            item.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
         }
-
-        //foreach (var item in PhotonNetwork.PlayerList)
-        //{
-        //    Debug.Log(" IsDeath :: " + ((PlayerConn)item.CustomProperties["PlayerCoon"]).IsDeath);
-        //}
     }
 
     public void StopGame()
@@ -222,7 +243,14 @@ public class GameManager : MonoBehaviour
     {
         playerRespawn = player;
         Debug.Log(" playerRespawn : " + playerRespawn.transform.position);
-        if (startTimer) ButtonRespawn.gameObject.SetActive(true);
+        if (startTimer)
+        {
+            ButtonRespawn.gameObject.SetActive(true);
+        }
+        else
+        {
+            CheckDeath();
+        }
     }
 
     public void RespawnPlayer()

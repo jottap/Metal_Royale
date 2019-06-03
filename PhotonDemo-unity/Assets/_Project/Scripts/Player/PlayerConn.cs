@@ -53,7 +53,7 @@ public class PlayerConn : MonoBehaviour
             isDeath = value;
             PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
-            { "PlayerCoon", value }
+            { "IsDeath", value }
         });
         }
     }
@@ -63,6 +63,12 @@ public class PlayerConn : MonoBehaviour
     public void Init()
     {
         this.GetComponent<PhotonView>().RPC("InitPhoton", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void StartRespawn()
+    {
+
     }
 
     [PunRPC]
@@ -79,7 +85,8 @@ public class PlayerConn : MonoBehaviour
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
-            { "PlayerCoon", IsDeath }
+            { "IsDeath", IsDeath },
+            { "VIEWID", GetComponent<PhotonView>().ViewID }
         });
 
         if (GameManager.Instance.IsGameStarted)
@@ -110,6 +117,7 @@ public class PlayerConn : MonoBehaviour
             return;
 
         IsDeath = true;
+
         this.GetComponent<PhotonView>().RPC("SetPosition", RpcTarget.All);
         GameManager.Instance.SetRespawnPlayer(this.gameObject);
     }
