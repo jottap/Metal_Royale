@@ -44,6 +44,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool startTimer;
 
+    [Header("Debug")]
+    [SerializeField]
+    private TextMeshProUGUI m_DebugLabel;
+
     #endregion
 
     private void Awake()
@@ -94,6 +98,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
+            m_isGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
+            startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
+        }
+        SetVar();
 
         if (!startTimer) return;
 
@@ -102,9 +113,10 @@ public class GameManager : MonoBehaviour
 
         if (timerIncrementValue >= timer)
         {
-            Debug.Log(" FINAL " + (timerIncrementValue >= timer));
-            Debug.Log(" FINAL " + timerIncrementValue);
-            Debug.Log(" FINAL " + timer);
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+
+            }
             StopGame();
         }
     }
@@ -149,12 +161,30 @@ public class GameManager : MonoBehaviour
         ButtonStartGame.gameObject.SetActive(false);
         startTime = PhotonNetwork.Time;
         startTimer = true;
+
+        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
+        startTime = PhotonNetwork.Time;
+
+        CustomeValue.Add("StartTime", startTime);
+        CustomeValue.Add("startTimer", startTimer);
+        CustomeValue.Add("IsGameStarted", m_isGameStarted);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
     }
 
     public void StopGame()
     {
         m_isGameStarted = false;
         ButtonStartGame.gameObject.SetActive(true);
+
+        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
+        startTime = PhotonNetwork.Time;
+
+        CustomeValue.Add("StartTime", startTime);
+        CustomeValue.Add("startTimer", startTimer);
+        CustomeValue.Add("IsGameStarted", m_isGameStarted);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
     }
 
     public void SetRespawnPlayer(GameObject player)
@@ -167,7 +197,24 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer()
     {
         playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.MasterClient);
+        playerRespawn.gameObject.SetActive(true);
         ButtonRespawn.gameObject.SetActive(false);
     }
 
+    public void SetVar()
+    {
+        m_DebugLabel.text = string.Format(" startTime : {0}\n  m_isGameStarted : {1}\n  startTimer : {2} \n ", startTime, m_isGameStarted, startTimer);
+    }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            Debug.Log(stream.Count);
+        }
+
+        else
+        {
+        }
+    }
 }
