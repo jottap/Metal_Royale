@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     //private Player_Base playerBase;
     private PlayerSkillSet m_PlayerSkillSet;
     private Rigidbody2D m_Rigidbody2d;
-    private BoxCollider2D m_BoxCollider2d;
+    private Collider2D m_BoxCollider2d;
     private PhotonView m_PhotonView;
     private int m_AirJumpCount = 0;
 
@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         //playerBase = gameObject.GetComponent<Player_Base>();
         m_PlayerSkillSet = transform.GetComponent<PlayerSkillSet>();
         m_Rigidbody2d = transform.GetComponent<Rigidbody2D>();
-        m_BoxCollider2d = transform.GetComponent<BoxCollider2D>();
+        m_BoxCollider2d = transform.GetComponent<Collider2D>();
         m_PhotonView = GetComponent<PhotonView>();
         CharacterDirection = Vector2.right;
         IsStunned = false;
