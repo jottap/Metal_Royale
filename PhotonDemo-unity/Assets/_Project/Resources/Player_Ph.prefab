@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HitBoxCollider2D: {fileID: 2055469767552307998}
+  m_UltimateDuration: 3
 --- !u!1 &2055469765506591749
 GameObject:
   m_ObjectHideFlags: 0
