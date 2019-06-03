@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject m_StunnedEffect;
     [SerializeField] private LayerMask platformsLayerMask;
     [SerializeField] private float m_JumpVelocity = 24F;
-    [SerializeField] private float m_HitForce = 30F;
     [SerializeField] private float m_MoveSpeed = 6F;
     [SerializeField] private float m_MidAirControl = 3F;
     [SerializeField] private int m_AirJumpMax = 1;
@@ -60,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
             this.GetComponent<PhotonView>().RPC("SetIsStuned", RpcTarget.All, new object[] { value });
         }
     }
-    private float StunMaxTime = 1F;
+    private float StunMaxTime = 0.6F;
     private float StunTimer = 0F;
 
     private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
@@ -119,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ItIsMe())
         {
-            bool isPerformingSkillSet = !m_PlayerSkillSet.CanPerformGuitarrada || !m_PlayerSkillSet.CanPerformMetalPower;
+            bool isPerformingSkillSet = !m_PlayerSkillSet.CanPerformSkill;
             if (!IsStunned && !isPerformingSkillSet)
             {
                 bool isGrounded = IsGrounded;
@@ -174,10 +173,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    public void TakeHit(Vector2 hitDirection)
+    public void TakeHit(Vector2 hitDirection, float hitForce)
     {
         m_HitEffect.Play();
-        m_Rigidbody2d.velocity = hitDirection * m_HitForce;
+        m_Rigidbody2d.velocity = hitDirection * hitForce;
     }
 
     private void PerformJump()
@@ -188,7 +187,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement_FullMidAirControl()
     {
-
         m_Rigidbody2d.velocity = new Vector2(GetHorizontalInput * m_MoveSpeed, m_Rigidbody2d.velocity.y);
 
         if (GetHorizontalInput < 0) CharacterDirection = Vector2.left;
