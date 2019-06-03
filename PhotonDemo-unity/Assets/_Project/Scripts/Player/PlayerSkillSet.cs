@@ -1,83 +1,73 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerSkillSet : MonoBehaviour
 {
     private PlayerMovement m_PlayerMovement;
-    private PlayerConn m_PlayerConn;
 
-    public bool CanPerformGuitarrada { get; set; }
-    public bool CanPerformMetalPower { get; set; }
+    public bool CanPerformSkill { get; set; }
 
     [SerializeField] private Collider2D m_HitBoxCollider2D;
+    [SerializeField] private float m_UltimateDuration = 3F;
 
     private void Awake()
     {
         m_PlayerMovement = transform.GetComponent<PlayerMovement>();
-        m_PlayerConn = transform.GetComponent<PlayerConn>();
-
-        CanPerformGuitarrada = true;
-        CanPerformMetalPower = true;
+        CanPerformSkill = true;
     }
 
     private void Update()
     {
-        if (m_PlayerMovement.ItIsMe())
+        if (m_PlayerMovement.ItIsMe() && CanPerformSkill)
         {
-            //if (Input.GetKeyDown(KeyCode.F))
-            //{
-            //    if (m_CanUseMetalPower)
-            //    {
-            //        if (m_PlayerConn.Score == m_PlayerConn.MaxScore)
-            //        {
-            //            MetalPower();
-            //        }
-            //        else
-            //        {
-            //            UltraMetalPower();
-            //        }
-            //    }
-            //}
-            //else
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                Debug.Log("m_CanPerformGuitarrada = " + (CanPerformGuitarrada ? "Sim" : "Não"));
-                Debug.Log("m_PlayerMovement.IsGrounded() = " + (m_PlayerMovement.IsGrounded ? "Sim" : "Não"));
-                if (CanPerformGuitarrada && m_PlayerMovement.IsGrounded)
-                {
-                    CanPerformGuitarrada = false;
-                    this.GetComponent<PhotonView>().RPC("SetTrigger", RpcTarget.All);
-                }
+                CanPerformSkill = false;
+                this.GetComponent<PhotonView>().RPC("SetTriggerUltimate", RpcTarget.All, new object[] { true });
+            }
+            else if (Input.GetKeyDown(KeyCode.Q) && m_PlayerMovement.IsGrounded)
+            {
+                CanPerformSkill = false;
+                this.GetComponent<PhotonView>().RPC("SetTriggerAttack", RpcTarget.All);
             }
         }
     }
 
+    public void FinishUltimate()
+    {
+        StartCoroutine(FinishUltimateCoroutine());
+    }
+
+    private IEnumerator FinishUltimateCoroutine()
+    {
+        yield return new WaitForSeconds(m_UltimateDuration);
+        this.GetComponent<PhotonView>().RPC("SetTriggerUltimate", RpcTarget.All, new object[] { false });
+        ReleaseSkillSet();
+    }
+
     [PunRPC]
-    public void SetTrigger()
+    public void SetTriggerAttack()
     {
         m_PlayerMovement.AnimatorController.SetTrigger("Attack");
     }
 
+    [PunRPC]
+    public void SetTriggerUltimate(bool isActive)
+    {
+        m_PlayerMovement.AnimatorController.SetBool("IsUltimateOn", isActive);
+        if (isActive) m_PlayerMovement.AnimatorController.SetTrigger("Ulti");
+    }
+
     public void ReleaseSkillSet()
     {
-        CanPerformGuitarrada = true;
-        CanPerformMetalPower = true;
+        CanPerformSkill = true;
     }
 
     [PunRPC]
-    public void HitAndStun(Vector2 hitDirection)
+    public void HitAndStun(Vector2 hitDirection, float hitForce)
     {
         m_PlayerMovement.IsStunned = true;
-        this.GetComponent<PhotonView>().RPC("TakeHit", RpcTarget.All, new object[] { hitDirection });
-    }
-
-    private void PerformMetalPower()
-    {
-
-    }
-
-    private void PerformHeavyMetalPower()
-    {
-
+        this.GetComponent<PhotonView>().RPC("TakeHit", RpcTarget.All, new object[] { hitDirection, hitForce });
     }
 }
