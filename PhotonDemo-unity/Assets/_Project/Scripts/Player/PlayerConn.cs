@@ -45,7 +45,18 @@ public class PlayerConn : MonoBehaviour
 
     [SerializeField]
     private bool isDeath;
-    public bool IsDeath { get => isDeath; set => isDeath = value; }
+    public bool IsDeath
+    {
+        get => isDeath;
+        set
+        {
+            isDeath = value;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+        {
+            { "PlayerCoon", value }
+        });
+        }
+    }
 
     #endregion
 
@@ -64,11 +75,10 @@ public class PlayerConn : MonoBehaviour
             NameLabel.color = Color.green;
 
 
-        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
             { "PlayerCoon", IsDeath }
-        };
-        PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
+        });
     }
 
     // Update is called once per frame

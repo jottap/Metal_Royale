@@ -100,6 +100,22 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            foreach (var item in PhotonNetwork.PlayerList)
+            {
+                Debug.Log("item.CustomProperties.Count >>> " + item.CustomProperties.Count);
+                Debug.Log("item.CustomProperties.Keys.GetType >>> " + item.CustomProperties.Keys.GetType());
+                Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
+
+                foreach (var entry in item.CustomProperties)
+                {
+                    Debug.Log(" KEY >>> " + entry.Key);
+                    Debug.Log(" Value >>> " + entry.Value);
+                }
+            }
+        }
+
         if (!PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
@@ -108,7 +124,15 @@ public class GameManager : MonoBehaviour
         }
         SetVar();
 
-        if (!startTimer) return;
+        if (!startTimer)
+        {
+            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerCoon"])
+                WaintingStart.gameObject.SetActive(true);
+
+            return;
+        }
+
+        WaintingStart.gameObject.SetActive(!startTimer);
 
         timerIncrementValue = PhotonNetwork.Time - startTime;
         m_timeLabel.text = (timer - timerIncrementValue).ToString("F0");
@@ -121,6 +145,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckDeath()
     {
+        int i = 0;
         foreach (var item in PhotonNetwork.PlayerList)
         {
             Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
@@ -194,10 +219,6 @@ public class GameManager : MonoBehaviour
             ButtonStartGame.gameObject.SetActive(true);
             CheckDeath();
         }
-        else
-        {
-            WaintingStart.gameObject.SetActive(true);
-        }
 
         startTimer = false;
 
@@ -223,11 +244,6 @@ public class GameManager : MonoBehaviour
         playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
         playerRespawn.gameObject.SetActive(true);
         ButtonRespawn.gameObject.SetActive(false);
-    }
-
-    public void ResetPlayer()
-    {
-
     }
 
     public void SetVar()
