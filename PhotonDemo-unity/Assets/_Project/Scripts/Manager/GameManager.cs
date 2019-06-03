@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<PlayerConn> m_PlayerList;
     public List<PlayerConn> PlayerList { get => m_PlayerList; set => m_PlayerList = value; }
+    public bool IsGameStarted { get => m_isGameStarted; set => m_isGameStarted = value; }
 
     [SerializeField]
     private float m_timeRespawnItem;
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
             startTimer = false;
             CustomeValue.Add("StartTime", startTime);
             CustomeValue.Add("startTimer", startTimer);
-            CustomeValue.Add("IsGameStarted", m_isGameStarted);
+            CustomeValue.Add("IsGameStarted", IsGameStarted);
             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
             ButtonStartGame.gameObject.SetActive(true);
 
@@ -77,25 +78,15 @@ public class GameManager : MonoBehaviour
         else
         {
             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
-            m_isGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
+            IsGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
             startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
         }
 
         GameObject playerGo = PhotonNetwork.Instantiate(Constants.PlayerPrefab, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity);
-        PlayerList.Add(playerGo.GetComponent<PlayerConn>());
 
         playerGo.GetComponent<PlayerConn>().Init();
-
         SubscriveEvent();
 
-        if (m_isGameStarted)
-        {
-            playerGo.gameObject.SetActive(false);
-        }
-        else
-        {
-            playerGo.gameObject.SetActive(true);
-        }
     }
 
     void Update()
@@ -119,7 +110,7 @@ public class GameManager : MonoBehaviour
         if (!PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
-            m_isGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
+            IsGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
             startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
         }
         SetVar();
@@ -150,11 +141,16 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
         }
+
+        foreach (var item in PlayerList)
+        {
+            item.GetComponent<PhotonView>().RPC("SetRespawn", RpcTarget.All);
+        }
     }
 
     public IEnumerator GenerateItem()
     {
-        while (true && m_isGameStarted)
+        while (true && IsGameStarted)
         {
             yield return new WaitForSeconds(m_timeRespawnItem);
             PhotonNetwork.Instantiate(Constants.ItemPrefab, new Vector3(Random.Range(-5, 5), 7, 0), Quaternion.identity);
@@ -188,7 +184,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        m_isGameStarted = true;
+        IsGameStarted = true;
         ButtonStartGame.gameObject.SetActive(false);
         startTime = PhotonNetwork.Time;
         startTimer = true;
@@ -198,11 +194,16 @@ public class GameManager : MonoBehaviour
 
         CustomeValue.Add("StartTime", startTime);
         CustomeValue.Add("startTimer", startTimer);
-        CustomeValue.Add("IsGameStarted", m_isGameStarted);
+        CustomeValue.Add("IsGameStarted", IsGameStarted);
 
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
         StartCoroutine(GenerateItem());
+
+        foreach (var item in PlayerList)
+        {
+            item.GetComponent<PhotonView>().RPC("SetRespawn", RpcTarget.All);
+        }
 
         //foreach (var item in PhotonNetwork.PlayerList)
         //{
@@ -212,7 +213,7 @@ public class GameManager : MonoBehaviour
 
     public void StopGame()
     {
-        m_isGameStarted = false;
+        IsGameStarted = false;
         ButtonRespawn.gameObject.SetActive(false);
 
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -228,7 +229,7 @@ public class GameManager : MonoBehaviour
 
         CustomeValue.Add("StartTime", startTime);
         CustomeValue.Add("startTimer", startTimer);
-        CustomeValue.Add("IsGameStarted", m_isGameStarted);
+        CustomeValue.Add("IsGameStarted", IsGameStarted);
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
     }
@@ -249,7 +250,7 @@ public class GameManager : MonoBehaviour
 
     public void SetVar()
     {
-        m_DebugLabel.text = string.Format(" startTime : {0}\n  m_isGameStarted : {1}\n  startTimer : {2} \n ", startTime, m_isGameStarted, startTimer);
+        m_DebugLabel.text = string.Format(" startTime : {0}\n  m_isGameStarted : {1}\n  startTimer : {2} \n ", startTime, IsGameStarted, startTimer);
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
