@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HitBoxCollider2D: {fileID: 2055469767552307998}
+  m_UltimateDuration: 3
 --- !u!1 &2055469765506591749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1198,7 @@ GameObject:
   - component: {fileID: 3474471185540315860}
   - component: {fileID: 4457295347079902170}
   - component: {fileID: 9147905394759661219}
+  - component: {fileID: 811900557663066194}
   m_Layer: 0
   m_Name: HitArea
   m_TagString: Untagged
@@ -1298,6 +1300,22 @@ MonoBehaviour:
   m_AnimationCycleDuration: 0.15
   m_GrowSize: 2
   m_CompressSize: 0.8
+--- !u!114 &811900557663066194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745467294228059657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57877bbaf3a2412449058feaec2391af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OwnPlayerCollider2D: {fileID: 8996307504449052963}
+  m_OwnPlayerMovement: {fileID: 2090317945509055978}
+  m_OwnPlayerConn: {fileID: 3004689883289767604}
+  m_BaseHitForce: 2
 --- !u!1 &4980599258535825731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,7 +1325,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1564154757248353561}
-  - component: {fileID: 4136260258995025264}
   m_Layer: 0
   m_Name: Ultimate
   m_TagString: Untagged
@@ -1331,22 +1348,6 @@ Transform:
   m_Father: {fileID: 2055469767306152966}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4136260258995025264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4980599258535825731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57877bbaf3a2412449058feaec2391af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OwnPlayerCollider2D: {fileID: 8996307504449052963}
-  m_OwnPlayerMovement: {fileID: 2090317945509055978}
-  m_OwnPlayerConn: {fileID: 3004689883289767604}
-  m_BaseHitForce: 2
 --- !u!1 &5031272586320345302
 GameObject:
   m_ObjectHideFlags: 0
