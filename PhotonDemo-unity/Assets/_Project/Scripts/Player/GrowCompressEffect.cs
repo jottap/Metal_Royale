@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class HitAreaEffect : MonoBehaviour
+public class GrowCompressEffect : MonoBehaviour
 {
     [SerializeField] private Vector3 m_BaseScale;
     [SerializeField] private float m_AnimationCycleDuration;
