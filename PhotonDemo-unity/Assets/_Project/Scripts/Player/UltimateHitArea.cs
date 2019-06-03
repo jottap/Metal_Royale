@@ -23,8 +23,9 @@ public class UltimateHitArea : MonoBehaviour
             PlayerSkillSet playerSkillSet = collision.gameObject.GetComponent<PlayerSkillSet>();
             if (playerSkillSet != null)
             {
+                Vector2 hitDirection = collision.gameObject.transform.position - m_OwnPlayerMovement.gameObject.transform.position;
                 float force = m_Score * m_BaseHitForce;
-                playerSkillSet.GetComponent<PhotonView>().RPC("HitAndStun", RpcTarget.All, new object[] { m_OwnPlayerMovement.CharacterDirection, force });
+                playerSkillSet.GetComponent<PhotonView>().RPC("HitAndStun", RpcTarget.All, new object[] { hitDirection, force });
             }
         }
     }

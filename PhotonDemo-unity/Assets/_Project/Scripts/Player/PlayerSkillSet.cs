@@ -9,7 +9,7 @@ public class PlayerSkillSet : MonoBehaviour
     public bool CanPerformSkill { get; set; }
 
     [SerializeField] private Collider2D m_HitBoxCollider2D;
-    [SerializeField] private float m_UltimateDuration = 3F;
+    [SerializeField] private float m_UltimateDuration = 2F;
 
     private void Awake()
     {
