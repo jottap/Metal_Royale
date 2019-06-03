@@ -62,6 +62,17 @@ public class PlayerMovement : MonoBehaviour
     private float StunMaxTime = 0.6F;
     private float StunTimer = 0F;
 
+    public bool m_IsWinner;
+    public bool IsWinner
+    {
+        get => m_IsWinner;
+        set
+        {
+            m_IsWinner = value;
+            m_PlayerSkillSet.CanPerformSkill = !value;
+        }
+    }
+
     private float GetHorizontalInput { get => Input.GetAxisRaw("Horizontal"); }
     private bool GetJumpInput { get => Input.GetButtonDown("Jump"); }
     public bool IsGrounded
@@ -82,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         m_PhotonView = GetComponent<PhotonView>();
         CharacterDirection = Vector2.right;
         IsStunned = false;
+        IsWinner = false;
     }
 
     [PunRPC]
@@ -119,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         if (ItIsMe())
         {
             bool isPerformingSkillSet = !m_PlayerSkillSet.CanPerformSkill;
-            if (!IsStunned && !isPerformingSkillSet)
+            if (!IsStunned && !isPerformingSkillSet && !IsWinner)
             {
                 bool isGrounded = IsGrounded;
                 m_AnimatorController.SetBool("IsGrounded", isGrounded);
@@ -201,10 +213,21 @@ public class PlayerMovement : MonoBehaviour
         m_AnimatorController.SetInteger("Velocity", value);
     }
 
+    public void WinGame()
+    {
+        IsWinner = true;
+        this.GetComponent<PhotonView>().RPC("PerformWin", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void PerformWin()
+    {
+        m_AnimatorController.SetTrigger("Win");
+    }
+
     private void StopPlayer()
     {
         m_Rigidbody2d.velocity = new Vector2(0, m_Rigidbody2d.velocity.y);
-        //m_AnimatorController.SetInteger("Velocity", 0);
         this.GetComponent<PhotonView>().RPC("SetVelocity", RpcTarget.All, new object[] { 0 });
     }
 }
