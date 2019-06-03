@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         if (!startTimer) return;
 
         timerIncrementValue = PhotonNetwork.Time - startTime;
-        m_timeLabel.text = timerIncrementValue.ToString("F0");
+        m_timeLabel.text = (timer - timerIncrementValue).ToString("F0");
 
         if (timerIncrementValue >= timer)
         {
