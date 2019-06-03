@@ -91,21 +91,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            foreach (var item in PhotonNetwork.PlayerList)
-            {
-                Debug.Log("item.CustomProperties.Count >>> " + item.CustomProperties.Count);
-                Debug.Log("item.CustomProperties.Keys.GetType >>> " + item.CustomProperties.Keys.GetType());
-                Debug.Log(" IsDeath :: " + ((bool)item.CustomProperties["PlayerCoon"]));
-
-                foreach (var entry in item.CustomProperties)
-                {
-                    Debug.Log(" KEY >>> " + entry.Key);
-                    Debug.Log(" Value >>> " + entry.Value);
-                }
-            }
-        }
 
         if (!PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -113,7 +98,6 @@ public class GameManager : MonoBehaviour
             IsGameStarted = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["IsGameStarted"].ToString());
             startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
         }
-        SetVar();
 
         if (!startTimer)
         {
@@ -238,7 +222,7 @@ public class GameManager : MonoBehaviour
     {
         playerRespawn = player;
         Debug.Log(" playerRespawn : " + playerRespawn.transform.position);
-        ButtonRespawn.gameObject.SetActive(true);
+        if (startTimer) ButtonRespawn.gameObject.SetActive(true);
     }
 
     public void RespawnPlayer()
@@ -246,11 +230,6 @@ public class GameManager : MonoBehaviour
         playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
         playerRespawn.gameObject.SetActive(true);
         ButtonRespawn.gameObject.SetActive(false);
-    }
-
-    public void SetVar()
-    {
-        m_DebugLabel.text = string.Format(" startTime : {0}\n  m_isGameStarted : {1}\n  startTimer : {2} \n ", startTime, IsGameStarted, startTimer);
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
