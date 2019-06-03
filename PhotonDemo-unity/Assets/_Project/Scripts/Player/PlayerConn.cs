@@ -59,11 +59,15 @@ public class PlayerConn : MonoBehaviour
     {
         m_pv = GetComponent<PhotonView>();
         NameLabel.text = m_pv.Owner.NickName;
-        NameLabel.color = Color.green;
+
+        if (m_pv.IsMine)
+            NameLabel.color = Color.green;
 
 
-        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
-        CustomeValue.Add("PlayerCoon", this);
+        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable
+        {
+            { "PlayerCoon", IsDeath }
+        };
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
     }
 
