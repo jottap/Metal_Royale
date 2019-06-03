@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
 
         if (!startTimer)
         {
-            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerCoon"])
+            if (PhotonNetwork.LocalPlayer.CustomProperties.Count > 0 && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerCoon"])
                 WaintingStart.gameObject.SetActive(true);
 
             return;
@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
         CustomeValue.Add("StartTime", startTime);
         CustomeValue.Add("startTimer", startTimer);
         CustomeValue.Add("IsGameStarted", m_isGameStarted);
+
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
         StartCoroutine(GenerateItem());
