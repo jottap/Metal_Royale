@@ -75,10 +75,21 @@ public class PlayerConn : MonoBehaviour
             NameLabel.color = Color.green;
 
 
+        GameManager.Instance.PlayerList.Add(this);
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
             { "PlayerCoon", IsDeath }
         });
+
+        if (GameManager.Instance.IsGameStarted)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
