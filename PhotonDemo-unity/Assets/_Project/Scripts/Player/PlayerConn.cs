@@ -55,6 +55,7 @@ public class PlayerConn : MonoBehaviour
     {
         m_pv = GetComponent<PhotonView>();
         NameLabel.text = m_pv.Owner.NickName;
+        NameLabel.color = Color.green;
     }
 
     // Update is called once per frame
