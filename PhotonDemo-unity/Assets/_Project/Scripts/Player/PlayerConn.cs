@@ -43,6 +43,10 @@ public class PlayerConn : MonoBehaviour
 
     private int m_scoreMax = 10;
 
+    [SerializeField]
+    private bool isDeath;
+    public bool IsDeath { get => isDeath; set => isDeath = value; }
+
     #endregion
 
     public void Init()
@@ -56,6 +60,11 @@ public class PlayerConn : MonoBehaviour
         m_pv = GetComponent<PhotonView>();
         NameLabel.text = m_pv.Owner.NickName;
         NameLabel.color = Color.green;
+
+
+        ExitGames.Client.Photon.Hashtable CustomeValue = new ExitGames.Client.Photon.Hashtable();
+        CustomeValue.Add("PlayerCoon", this);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
     }
 
     // Update is called once per frame
@@ -75,6 +84,7 @@ public class PlayerConn : MonoBehaviour
         if (!GetComponent<PhotonView>().IsMine)
             return;
 
+        IsDeath = true;
         this.GetComponent<PhotonView>().RPC("SetPosition", RpcTarget.All);
         GameManager.Instance.SetRespawnPlayer(this.gameObject);
     }
@@ -89,6 +99,7 @@ public class PlayerConn : MonoBehaviour
     [PunRPC]
     private void RespawnPlayer()
     {
+        IsDeath = false;
         gameObject.SetActive(true);
     }
 
