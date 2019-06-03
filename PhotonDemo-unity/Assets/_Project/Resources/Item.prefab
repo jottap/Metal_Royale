@@ -179,5 +179,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BaseScale: {x: 0.6, y: 0.6, z: 0.6}
   m_AnimationCycleDuration: 0.2
-  m_GrowSize: 1.6
-  m_CompressSize: 1
+  m_GrowSize: 1.3
+  m_CompressSize: 0.9
