@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d77ae5fb7326b4084f0afc212f926e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnPlayerCollider2D: {fileID: 0}
+  m_OwnPlayerCollider2D: {fileID: 2143898962085571493}
   m_OwnPlayerMovement: {fileID: 2090317945509055978}
   m_HitForce: 2
 --- !u!1 &2372250160383796317
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57877bbaf3a2412449058feaec2391af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnPlayerCollider2D: {fileID: 0}
+  m_OwnPlayerCollider2D: {fileID: 2143898962085571493}
   m_OwnPlayerMovement: {fileID: 2090317945509055978}
   m_OwnPlayerConn: {fileID: 3004689883289767604}
   m_BaseHitForce: 2
@@ -1864,18 +1864,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoundHitYellow
       objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: InitialModule.startRotationX.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: InitialModule.startRotationY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 434256, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1931,6 +1919,18 @@ PrefabInstance:
     - target: {fileID: 434256, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19849126, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: playOnAwake
