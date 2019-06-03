@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.MasterClient);
+        playerRespawn.GetComponent<PhotonView>().RPC("RespawnPlayer", RpcTarget.All);
         playerRespawn.gameObject.SetActive(true);
         ButtonRespawn.gameObject.SetActive(false);
     }
