@@ -68,7 +68,15 @@ public class PlayerConn : MonoBehaviour
     [PunRPC]
     public void StartRespawn()
     {
-
+        if (isDeath)
+        {
+            IsDeath = false;
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            GetComponent<PlayerMovement>().RestartPlayer();
+        }
     }
 
     [PunRPC]
