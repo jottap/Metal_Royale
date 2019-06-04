@@ -55,5 +55,7 @@ MonoBehaviour:
   - SetRespawn
   - StartRespawn
   - WinGame
+  - CheckDeath
+  - CheckDeathPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
