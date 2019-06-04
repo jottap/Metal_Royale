@@ -235,6 +235,7 @@ public class PlayerMovement : MonoBehaviour
     public void PerformWin()
     {
         m_AnimatorController.SetTrigger("Win");
+        m_AnimatorController.SetBool("IsWinner", true);
     }
 
     private void StopPlayer()
@@ -252,6 +253,6 @@ public class PlayerMovement : MonoBehaviour
     private void SetRestartPlayer()
     {
         IsWinner = false;
-        m_AnimatorController.SetTrigger("Idle");
+        m_AnimatorController.SetBool("IsWinner", false);
     }
 }

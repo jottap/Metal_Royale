@@ -193,7 +193,6 @@ MonoBehaviour:
   m_MoveSpeed: 6
   m_MidAirControl: 3
   m_AirJumpMax: 1
-  m_IsWinner: 0
 --- !u!114 &3514043065399955963
 MonoBehaviour:
   m_ObjectHideFlags: 0
