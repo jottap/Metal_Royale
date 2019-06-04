@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     private float StunMaxTime = 0.6F;
     private float StunTimer = 0F;
 
-    public bool m_IsWinner;
+    private bool m_IsWinner;
     public bool IsWinner
     {
         get => m_IsWinner;
