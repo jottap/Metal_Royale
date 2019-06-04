@@ -142,8 +142,8 @@ public class GameManager : MonoBehaviour
         //Empate
         if (m_PlayerListLive.Count == 0)
         {
-
-            ButtonStartGame.gameObject.SetActive(true);
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                ButtonStartGame.gameObject.SetActive(true);
         }
         else
         {
@@ -151,7 +151,8 @@ public class GameManager : MonoBehaviour
             {
                 //WIN
                 m_PlayerListLive[0].GetComponent<PlayerMovement>().WinGame();
-                ButtonStartGame.gameObject.SetActive(true);
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    ButtonStartGame.gameObject.SetActive(true);
             }
         }
     }
