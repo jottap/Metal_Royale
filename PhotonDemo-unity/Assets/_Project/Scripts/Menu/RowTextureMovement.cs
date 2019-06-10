@@ -18,6 +18,6 @@ public class RowTextureMovement : MonoBehaviour
     void Update()
     {
         float offset = Time.time * m_scrollSpeed;
-        m_rawImage.uvRect = new Rect(0, offset, 1, 1); ;
+        m_rawImage.uvRect = new Rect(m_rawImage.uvRect.x, offset, m_rawImage.uvRect.width, m_rawImage.uvRect.height);
     }
 }
