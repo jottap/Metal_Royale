@@ -38,7 +38,11 @@ public class MainScene : MonoBehaviour
 
     [Space(10)]
     [Header("TUTORIAL")]
-    [SerializeField] private GameObject m_tutorialPanel;
+    [SerializeField] private GameObject m_panelTutorial;
+
+    [Space(10)]
+    [Header("CHARACTER SELECTION")]
+    [SerializeField] private GameObject m_panelCharacterSelection; 
 
     [Space(10)]
     [Header("OTHERS")]
@@ -98,7 +102,9 @@ public class MainScene : MonoBehaviour
 
     public void OnConnected()
     {
-        ActivePanelRoom();
+        //ActivePanelRoom();
+        ActivePanelCharSelection();
+
     }
 
     public void OnJoinedRoom()
@@ -124,10 +130,32 @@ public class MainScene : MonoBehaviour
         m_btnNegative.onClick.AddListener(() => ActiveTutorialScreen());
     }
 
+    private void ActivePanelCharSelection()
+    {
+        CloseAllPanels();
+        m_panelCharacterSelection.SetActive(true);
+
+        m_btnsPanel.SetActive(true);
+
+        m_btnPositive.gameObject.SetActive(true);
+        m_labelPositive.text = "Enter";
+        m_btnPositive.onClick.RemoveAllListeners();
+        m_btnPositive.onClick.AddListener(() => ActivePanelRoom());
+
+        m_btnNegative.gameObject.SetActive(true);
+        m_labelNegative.text = "return";
+        m_btnNegative.onClick.RemoveAllListeners();
+        m_btnNegative.onClick.AddListener(() => {
+            PhotonNetwork.Disconnect();
+            ActivePanelLogin();
+
+        });
+    }
+
     private void ActiveTutorialScreen() {
 
         CloseAllPanels();
-        m_tutorialPanel.SetActive(true);
+        m_panelTutorial.SetActive(true);
 
         m_btnsPanel.SetActive(true);
 
@@ -170,10 +198,14 @@ public class MainScene : MonoBehaviour
         m_panelLogin.SetActive(false);
         m_panelRoom.SetActive(false);
         m_panelLoading.SetActive(false);
+        m_panelCharacterSelection.SetActive(false);
+        m_panelTutorial.SetActive(false);
+
+        m_btnsPanel.SetActive(false);
+
         m_btnPositive.gameObject.SetActive(false);
         m_btnNegative.gameObject.SetActive(false);
-        m_btnsPanel.SetActive(false);
-        m_tutorialPanel.SetActive(false);
+        
     }
 
 
