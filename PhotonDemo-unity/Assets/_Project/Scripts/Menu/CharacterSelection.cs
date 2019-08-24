@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CharacterSelection : MonoBehaviour
 {
-    public int charId = 0;
+    public static int charId = 0;
 
     [SerializeField] private ScrollRect m_scrollRectChars;
     [SerializeField] private RectTransform[] m_charsList;

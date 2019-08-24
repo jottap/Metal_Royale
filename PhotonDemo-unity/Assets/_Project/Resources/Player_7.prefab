@@ -110,7 +110,7 @@ RectTransform:
   m_LocalScale: {x: -0.004, y: 0.004, z: 1}
   m_Children:
   - {fileID: 5768929354834586919}
-  - {fileID: 2548076173516690781}
+  - {fileID: 9068774937128542862}
   m_Father: {fileID: 3653092486151822632}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -635,7 +635,7 @@ MonoBehaviour:
   m_textMeshProUGUI: {fileID: 1147359329521174482}
   m_MaxScore: 10
   m_score: 0
-  ScoreHud: {fileID: 2548076173516690780}
+  ScoreHud: {fileID: 9068774937128542793}
   isDeath: 0
 --- !u!70 &8162379327019942728
 CapsuleCollider2D:
@@ -1682,6 +1682,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8733269169097862644}
     m_Modifications:
+    - target: {fileID: 106150, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
+      propertyPath: m_Name
+      value: MusicalNotes
+      objectReference: {fileID: 0}
+    - target: {fileID: 106150, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 494110, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1737,14 +1745,6 @@ PrefabInstance:
     - target: {fileID: 494110, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 106150, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
-      propertyPath: m_Name
-      value: MusicalNotes
-      objectReference: {fileID: 0}
-    - target: {fileID: 106150, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19843582, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
@@ -1805,6 +1805,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8070536996899502282}
     m_Modifications:
+    - target: {fileID: 102696, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
+      propertyPath: m_Name
+      value: RoundHitYellow
+      objectReference: {fileID: 0}
     - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: InitialModule.startRotationX.minMaxState
       value: 3
@@ -1816,10 +1820,6 @@ PrefabInstance:
     - target: {fileID: 19873388, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: playOnAwake
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 102696, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
-      propertyPath: m_Name
-      value: RoundHitYellow
       objectReference: {fileID: 0}
     - target: {fileID: 434256, guid: 185035e4680c4b344b62bf5ace4674b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1906,6 +1906,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2845927507617829714}
     m_Modifications:
+    - target: {fileID: 6811227171011064291, guid: 36c017fee6b9ff44c902014b64996d3a,
+        type: 3}
+      propertyPath: m_Name
+      value: HUDPlayer
+      objectReference: {fileID: 0}
     - target: {fileID: 6811227171011064292, guid: 36c017fee6b9ff44c902014b64996d3a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2066,14 +2071,9 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.35686275
       objectReference: {fileID: 0}
-    - target: {fileID: 6811227171011064291, guid: 36c017fee6b9ff44c902014b64996d3a,
-        type: 3}
-      propertyPath: m_Name
-      value: HUDPlayer
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c017fee6b9ff44c902014b64996d3a, type: 3}
---- !u!114 &2548076173516690780 stripped
+--- !u!114 &9068774937128542793 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6811227171011064293, guid: 36c017fee6b9ff44c902014b64996d3a,
     type: 3}
@@ -2085,7 +2085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aafcbd711359984cb255f0949003cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2548076173516690781 stripped
+--- !u!224 &9068774937128542862 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6811227171011064292, guid: 36c017fee6b9ff44c902014b64996d3a,
     type: 3}
@@ -2098,6 +2098,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8070536996899502282}
     m_Modifications:
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_Name
+      value: StunnedCirclingStars
+      objectReference: {fileID: 0}
+    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2153,14 +2161,6 @@ PrefabInstance:
     - target: {fileID: 480980, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_Name
-      value: StunnedCirclingStars
-      objectReference: {fileID: 0}
-    - target: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19864276, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
       propertyPath: prewarm

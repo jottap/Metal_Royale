@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    public const string PLAYER_PREFAB = "Player_{0}";
+
     [Header("Settings")]
     [SerializeField]
     private List<PlayerConn> m_PlayerList;
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
             startTimer = bool.Parse(PhotonNetwork.CurrentRoom.CustomProperties["startTimer"].ToString());
         }
 
-        GameObject playerGo = PhotonNetwork.Instantiate(Constants.PlayerPrefab, new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity);
+        GameObject playerGo = PhotonNetwork.Instantiate(string.Format(PLAYER_PREFAB, CharacterSelection.charId + 1), new Vector3(Random.Range(-5, 5), 0, 0), Quaternion.identity);
 
         playerGo.GetComponent<PlayerConn>().Init();
         SubscriveEvent();
